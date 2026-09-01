@@ -1,0 +1,156 @@
+{
+  "version": "1.0.0",
+  "_comment": "keyterms feed streaming socket keyterms_prompt to bias STT toward domain vocabulary — Application-of-Technology evidence",
+  "roles": {
+    "junior-frontend": [
+      {
+        "id": "fe-01",
+        "text": "Tell me about a time you debugged a tricky UI bug. What was the symptom, how did you isolate it, and what did you ship?",
+        "competency": "behavioral",
+        "difficulty": 2,
+        "follow_ups": ["What tooling did you use to reproduce it?", "How did you verify the fix didn't regress?"],
+        "keyterms": ["React", "reproduce", "regression", "debug", "component"]
+      },
+      {
+        "id": "fe-02",
+        "text": "Describe how you would build a reusable button component in React. What props and accessibility considerations would you include?",
+        "competency": "technical",
+        "difficulty": 2,
+        "follow_ups": ["How would you handle variants like primary and secondary?", "What tests would you write for it?"],
+        "keyterms": ["React", "component", "props", "accessibility", "TypeScript"]
+      },
+      {
+        "id": "fe-03",
+        "text": "Tell me about a time you had to learn a new frontend framework quickly. How did you approach it?",
+        "competency": "behavioral",
+        "difficulty": 1,
+        "follow_ups": ["What was the hardest concept to grasp?", "How did you validate your understanding?"],
+        "keyterms": ["framework", "learning", "documentation", "tutorial"]
+      },
+      {
+        "id": "fe-04",
+        "text": "How would you optimize a page that loads slowly due to large images and many API calls?",
+        "competency": "technical",
+        "difficulty": 2,
+        "follow_ups": ["How would you prioritize what to fix first?", "What metrics would you track to confirm improvement?"],
+        "keyterms": ["performance", "lazy loading", "caching", "API", "bundle"]
+      },
+      {
+        "id": "fe-05",
+        "text": "Imagine a designer hands you a Figma file with responsive layouts. How do you translate it into code?",
+        "competency": "situational",
+        "difficulty": 2,
+        "follow_ups": ["How do you handle breakpoints that are not specified?", "What do you do if the design lacks accessibility annotations?"],
+        "keyterms": ["Figma", "responsive", "CSS", "breakpoint", "accessibility"]
+      },
+      {
+        "id": "fe-06",
+        "text": "What would you do if your CSS change broke the layout on mobile but looked fine on desktop?",
+        "competency": "situational",
+        "difficulty": 1,
+        "follow_ups": ["How would you reproduce the mobile issue locally?", "How would you ensure the fix works across browsers?"],
+        "keyterms": ["CSS", "responsive", "mobile", "media query", "debug"]
+      }
+    ],
+    "junior-backend": [
+      {
+        "id": "be-01",
+        "text": "Walk me through how you would design a rate limiter for a public API. What data structures and trade-offs would you consider?",
+        "competency": "technical",
+        "difficulty": 3,
+        "follow_ups": ["How would you handle bursts vs sustained load?", "Where would you store counters?", "How would you test it under load?"],
+        "keyterms": ["rate limiter", "token bucket", "Redis", "trade-off", "throughput"]
+      },
+      {
+        "id": "be-02",
+        "text": "Explain how you would design a simple REST API for a todo app. What endpoints and status codes would you use?",
+        "competency": "technical",
+        "difficulty": 2,
+        "follow_ups": ["How would you handle authentication?", "How would you version the API?"],
+        "keyterms": ["REST", "endpoint", "status code", "CRUD", "authentication"]
+      },
+      {
+        "id": "be-03",
+        "text": "Tell me about a time you had to debug a production issue under time pressure. What steps did you take?",
+        "competency": "behavioral",
+        "difficulty": 2,
+        "follow_ups": ["How did you communicate with stakeholders during the incident?", "What did you do to prevent it from recurring?"],
+        "keyterms": ["production", "debugging", "incident", "monitoring", "rollback"]
+      },
+      {
+        "id": "be-04",
+        "text": "How would you handle database migrations when deploying a schema change to production?",
+        "competency": "technical",
+        "difficulty": 3,
+        "follow_ups": ["How would you handle rollback if the migration fails?", "How do you test migrations without downtime?"],
+        "keyterms": ["migration", "Postgres", "schema", "deployment", "rollback"]
+      },
+      {
+        "id": "be-05",
+        "text": "If a downstream service you depend on goes down, how should your service respond?",
+        "competency": "situational",
+        "difficulty": 2,
+        "follow_ups": ["How would you handle retries without overwhelming the downstream?", "When would you show a fallback to the user?"],
+        "keyterms": ["circuit breaker", "retry", "fallback", "timeout", "resilience"]
+      },
+      {
+        "id": "be-06",
+        "text": "Why did you choose backend development? What excites you about working on servers and data?",
+        "competency": "behavioral",
+        "difficulty": 1,
+        "follow_ups": ["What backend concept are you most eager to deepen?", "How do you stay motivated when work is invisible to users?"],
+        "keyterms": ["backend", "server", "database", "scalability", "API"]
+      }
+    ],
+    "career-switcher": [
+      {
+        "id": "cs-01",
+        "text": "Tell me about your previous career and what motivated you to switch into software engineering?",
+        "competency": "behavioral",
+        "difficulty": 1,
+        "follow_ups": ["What was the turning point that made you decide to switch?", "How did you prepare for the transition?"],
+        "keyterms": ["career", "motivation", "transition", "software engineering", "learning"]
+      },
+      {
+        "id": "cs-02",
+        "text": "Describe a transferable skill from your prior role that helps you as an engineer. Give a concrete example.",
+        "competency": "behavioral",
+        "difficulty": 2,
+        "follow_ups": ["How did that skill help you on a recent project?", "What skill are you still translating?"],
+        "keyterms": ["transferable", "collaboration", "communication", "problem solving"]
+      },
+      {
+        "id": "cs-03",
+        "text": "How would you approach learning a new programming language when you have a deadline?",
+        "competency": "situational",
+        "difficulty": 2,
+        "follow_ups": ["What resources would you prioritize first?", "How would you balance depth and speed?"],
+        "keyterms": ["learning", "deadline", "documentation", "tutorial", "practice"]
+      },
+      {
+        "id": "cs-04",
+        "text": "Walk me through how you would explain a technical concept like APIs to a non-technical teammate.",
+        "competency": "technical",
+        "difficulty": 1,
+        "follow_ups": ["How would you check that they actually understood?", "What analogy would you use?"],
+        "keyterms": ["API", "explain", "analogy", "endpoint", "integration"]
+      },
+      {
+        "id": "cs-05",
+        "text": "Tell me about a time you received tough feedback during your transition. How did you respond?",
+        "competency": "behavioral",
+        "difficulty": 2,
+        "follow_ups": ["What did you change after receiving the feedback?", "How do you solicit feedback now?"],
+        "keyterms": ["feedback", "growth", "reflection", "improvement", "mentorship"]
+      },
+      {
+        "id": "cs-06",
+        "text": "Imagine you're stuck on a bug for hours and no senior is available. What do you do next?",
+        "competency": "situational",
+        "difficulty": 2,
+        "follow_ups": ["When would you escalate versus keep trying?", "What debugging steps would you log before asking for help?"],
+        "keyterms": ["debugging", "stuck", "Stack Overflow", "reproduce", "log"]
+      }
+    ]
+  }
+}

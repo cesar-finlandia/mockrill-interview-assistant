@@ -11,6 +11,7 @@ export default defineConfig({
   resolve: {
     alias: {
       src: `${root}src`,
+      engine: `${root}engine`,
       examples: `${root}examples`,
     },
   },

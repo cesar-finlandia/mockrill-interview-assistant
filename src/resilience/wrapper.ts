@@ -19,11 +19,11 @@ import type { LlmCallable } from "./validate.js";
 
 //#region Callable contract (DP-A §4.1)
 
-/** Minimal callable contract: zero required args (closure-friendly), sync or async, raises on failure. */
-export type ResilientCallable<T> = () => T | Promise<T>;
+/** Minimal callable contract: sync or async, raises on failure. Variadic args supported for callInterviewer-style callables. */
+export type ResilientCallable<T> = (...args: any[]) => T | Promise<T>;
 
 /** Uniform output: sync callables are promoted to Promise on the output side. */
-export type WrappedCallable<T> = () => Promise<T | DegradedResult<T>>;
+export type WrappedCallable<T> = (...args: any[]) => Promise<T | DegradedResult<T>>;
 
 /** Out-of-band dependencies (never serialized into config). */
 export interface WrapperDeps {
@@ -221,11 +221,12 @@ export function withResilience<T>(
   config?: ResilienceConfig | null,
   deps?: WrapperDeps,
 ): WrappedCallable<T> {
-  const rt = resolveRuntime(fn, config, deps);
-  return async (): Promise<T | DegradedResult<T>> => {
+  const rt = resolveRuntime(fn as ResilientCallable<T>, config, deps);
+  return async (...args: unknown[]): Promise<T | DegradedResult<T>> => {
     try {
       const ctx = bindStageContext(rt);
-      return await runResilientAsync(rt.exec, rt.getEffective(), ctx);
+      const execWithArgs = () => (rt.exec as unknown as (...a: unknown[]) => T | Promise<T>)(...args);
+      return await runResilientAsync(execWithArgs, rt.getEffective(), ctx);
     } catch (err) {
       // Outermost guard (GOV-RES-04 / RES-RES-03): nothing escapes unhandled.
       const normalized = normalizeError(err);
