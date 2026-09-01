@@ -1,0 +1,15 @@
+1|SUCCESS|213|1|58115|95|pi|fixed|SEQMD-run_sequential_md
+2|SUCCESS|186|1|72945|92|pi|fixed|SEQMD-run_sequential_md
+3|SUCCESS|213|1|80229|95|pi|fixed|SEQMD-run_sequential_md
+4|SUCCESS|197|1|82302|95|pi|fixed|SEQMD-run_sequential_md
+5|SUCCESS|197|1|84162|96|pi|fixed|SEQMD-run_sequential_md
+6|SUCCESS|196|1|80384|95|pi|fixed|SEQMD-run_sequential_md
+7|SUCCESS|196|1|88424|95|pi|fixed|SEQMD-run_sequential_md
+8|SUCCESS|196|1|101005|97|pi|fixed|SEQMD-run_sequential_md
+9|SUCCESS|197|1|76801|95|pi|fixed|SEQMD-run_sequential_md
+10|SUCCESS|196|1|71425|93|pi|fixed|SEQMD-run_sequential_md
+1|SUCCESS|196|1|53887|96|pi|fixed|CONTRACTS
+2|SUCCESS|196|1|30420|95|pi|fixed|CONTRACTS
+3|SUCCESS|196|1|36069|96|pi|fixed|CONTRACTS
+4|SUCCESS|197|1|21213|94|pi|fixed|CONTRACTS
+5|SUCCESS|217|1|29048|96|pi|fixed|CONTRACTS

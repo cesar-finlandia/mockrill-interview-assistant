@@ -1,5 +1,47 @@
 {
-  "$comment": "TODO(ENGINE): define Engine input shape per hackathon domain \u2014 see docs/engine-guide.md",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$comment": "Owned by DP-CONTRACTS; DP-INTERVIEWER TurnRequest/InterviewerAction TS types must match this schema field-for-field.",
+  "title": "TurnRequest",
   "type": "object",
-  "properties": {}
+  "required": ["session_id", "asked", "last_turn", "role"],
+  "additionalProperties": false,
+  "properties": {
+    "session_id": { "type": "string" },
+    "asked": { "type": "array", "items": { "type": "string" } },
+    "last_turn": {
+      "anyOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["turn_order", "transcript", "formatted", "end_of_turn", "end_of_turn_confidence", "words", "speaker", "received_at"],
+          "additionalProperties": false,
+          "properties": {
+            "turn_order": { "type": "integer" },
+            "transcript": { "type": "string" },
+            "formatted": { "type": "boolean" },
+            "end_of_turn": { "type": "boolean" },
+            "end_of_turn_confidence": { "type": "number" },
+            "words": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["text", "start", "end", "confidence", "word_is_final"],
+                "additionalProperties": false,
+                "properties": {
+                  "text": { "type": "string" },
+                  "start": { "type": "number" },
+                  "end": { "type": "number" },
+                  "confidence": { "type": "number" },
+                  "word_is_final": { "type": "boolean" }
+                }
+              }
+            },
+            "speaker": { "type": "string", "enum": ["candidate", "interviewer"] },
+            "received_at": { "type": "string", "format": "date-time" }
+          }
+        }
+      ]
+    },
+    "role": { "type": "string" }
+  }
 }

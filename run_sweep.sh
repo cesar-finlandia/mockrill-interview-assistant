@@ -172,6 +172,7 @@ RESUMES_GIVEN=false
 BACKOFF_S=300                         # --backoff S (sequence mode only)
 BACKOFF_GIVEN=false
 SEQUENCE=()                           # populated from $SEQUENCE_CONF at startup (see load_sequence_conf)
+GIT_INIT_ADD_PER_MODULE=false         # --git-init-add-per-module: git init if needed, then git add/commit per module
 
 # --- sequencemd mode (--sequencemd): a conf of raw .md prompt files executed
 # verbatim, one agent per file, top-to-bottom (e.g. design-plan authoring).
@@ -641,12 +642,16 @@ OPTIONS
    --backoff S        Seconds between resume attempts (default 300; sequence only).
    --force            Re-run DONE modules / overwrite existing planner outputs +
                       skip all lock guards (sequence and planner).
-   --supervise        Enable the autonomous supervisor (DP-SUPERVISOR).
-   --debug            Write diagnostics to $DEBUG_FILE (never stdout): every
-                      spawned command, watchdog decision, the transcript
-                      summary and the in-flight tool call at each failure.
-                      Also enable with AAD_DEBUG=1.
-   --clean            Reset for a truly fresh single-module start.
+    --supervise        Enable the autonomous supervisor (DP-SUPERVISOR).
+    --debug            Write diagnostics to $DEBUG_FILE (never stdout): every
+                       spawned command, watchdog decision, the transcript
+                       summary and the in-flight tool call at each failure.
+                       Also enable with AAD_DEBUG=1.
+    --clean            Reset for a truly fresh single-module start.
+    --git-init-add-per-module
+                       If needed run git init, then after each module do
+                       git add . + git commit -m "module <name> implemented".
+                       Skips git init when .git already exists.
 
 IPC SENTINEL CONTROL PLANE (no flag needed; see design_documents/draft_debugging_and_steering.md)
 -----------------------------------------------------------------------------------------------
@@ -710,9 +715,10 @@ while [ $# -gt 0 ]; do
     --from)    FROM="$2"; FROM_GIVEN=true; shift 2 ;;
     --resumes) MAX_RESUMES="$2"; RESUMES_GIVEN=true; shift 2 ;;
     --backoff) BACKOFF_S="$2"; BACKOFF_GIVEN=true; shift 2 ;;
-    --supervise) SUPERVISE=true; shift ;;
-    --debug)   DEBUG=1; shift ;;
-    --chat) CHAT_FILE="$2"; CHAT_MODE=true; CHAT_SPELLING="${CHAT_SPELLING}chat"; shift 2 ;;
+     --supervise) SUPERVISE=true; shift ;;
+     --debug)   DEBUG=1; shift ;;
+     --git-init-add-per-module) GIT_INIT_ADD_PER_MODULE=true; shift ;;
+     --chat) CHAT_FILE="$2"; CHAT_MODE=true; CHAT_SPELLING="${CHAT_SPELLING}chat"; shift 2 ;;
     --prompt) CHAT_FILE="$2"; CHAT_MODE=true; CHAT_SPELLING="${CHAT_SPELLING}prompt"; shift 2 ;;
     --conversation-id) CONVERSATION_ID="$2"; shift 2 ;;
     --title) CHAT_TITLE="$2"; shift 2 ;;
@@ -721,7 +727,7 @@ while [ $# -gt 0 ]; do
     --print-history) PRINT_HISTORY=true; shift ;;
     --list-conversations) LIST_CONVERSATIONS=true; shift ;;
     --clean)   MODE="build"; RESUME=false; RESTORE=false; CLEAN_GIVEN=true; rm -f "$STATE_FILE" "$HANDOVER_FILE" "handout_active.md" "$STEP_RECORDS_FILE"; rm -rf "$SUMMARY_DIR"; shift ;;
-    *) die "unknown flag: $1 (use --help/-h; flags: --prompts/--sequence/--planner/--chat/--prompt/--conversation-id/--title/--new/--compact-now/--print-history/--list-conversations/--out-dir/--dry-run/--step/--role/--limit/--poll/--stall-timeout/--continue-nudges/--model-backoff/--max-model-failures/--harness/--kill-mode/--pi-session-dir/--audit/--resume/--restore/--force/--from/--resumes/--backoff/--supervise/--debug/--clean)" ;;
+     *) die "unknown flag: $1 (use --help/-h; flags: --prompts/--sequence/--planner/--chat/--prompt/--conversation-id/--title/--new/--compact-now/--print-history/--list-conversations/--out-dir/--dry-run/--step/--role/--limit/--poll/--stall-timeout/--continue-nudges/--model-backoff/--max-model-failures/--harness/--kill-mode/--pi-session-dir/--audit/--resume/--restore/--force/--from/--resumes/--backoff/--supervise/--debug/--clean/--git-init-add-per-module)" ;;
   esac
 done
 
@@ -3684,6 +3690,48 @@ seqlog() {   # sequence-level log line: stdout + .sequential_run.log
   echo "[$(date '+%H:%M:%S')] $*" | tee -a "$LOG_FILE"
 }
 
+# --- git per-module helpers (--git-init-add-per-module) -------------------
+git_ensure_init_if_needed() {
+  [ "$GIT_INIT_ADD_PER_MODULE" = true ] || return 0
+  if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    return 0
+  fi
+  log " [git] no repo detected -> git init -b main"
+  if ! git init -b main >/dev/null 2>&1; then
+    git init >/dev/null 2>&1 || { log " [git] git init failed"; return 0; }
+    git symbolic-ref HEAD refs/heads/main 2>/dev/null || true
+  fi
+  git config user.name "${GIT_USER_NAME:-chassis}" >/dev/null 2>&1 || true
+  git config user.email "${GIT_USER_EMAIL:-chassis@local}" >/dev/null 2>&1 || true
+  if [ -f "src/assembly/gitignore.template" ]; then
+    cp "src/assembly/gitignore.template" ".gitignore" 2>/dev/null || true
+  fi
+  log " [git] initialized new repo on branch main"
+}
+
+git_commit_per_module() {  # $1 = module id
+  [ "$GIT_INIT_ADD_PER_MODULE" = true ] || return 0
+  local mod="$1"
+  [ -n "$mod" ] || mod="${MODULE:-unknown}"
+  if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    log " [git] not a git repo, skipping commit for $mod"
+    return 0
+  fi
+  # stage everything (respects .gitignore)
+  git add -A 2>/dev/null || git add . 2>/dev/null || return 0
+  # skip empty commit (no staged changes)
+  if git diff --cached --quiet 2>/dev/null; then
+    log " [git] no changes to commit for module $mod, skipping"
+    return 0
+  fi
+  local msg="module $mod implemented"
+  if git -c user.name="${GIT_USER_NAME:-chassis}" -c user.email="${GIT_USER_EMAIL:-chassis@local}" commit -m "$msg" >/dev/null 2>&1; then
+    log " [git] committed module $mod: $msg"
+  else
+    log " [git] commit failed for module $mod"
+  fi
+}
+
 sup_write_pid() {                    # advertise our msys + win pid for the supervisor
   mkdir -p "$SUPERVISOR_DIR"
   echo "$$ $(self_winpid)" >"$SUPERVISOR_DIR/driver.pid"
@@ -3819,6 +3867,7 @@ run_one_module() {
   if [ "$rc" -eq 0 ]; then
     seqlog "MODULE $module completed successfully."
     mark_result "$module" "DONE"
+    git_commit_per_module "$module"
     return 0
   fi
 
@@ -3841,6 +3890,7 @@ run_one_module() {
     if [ "$rc" -eq 0 ]; then
       seqlog "MODULE $module completed (supervisor-assisted)."
       mark_result "$module" "DONE"
+      git_commit_per_module "$module"
       return 0
     fi
     if [ "$INTERRUPTED" = true ]; then
@@ -3868,6 +3918,7 @@ run_one_module() {
     if [ "$rc" -eq 0 ]; then
       seqlog "MODULE $module completed after resume attempt $attempt."
       mark_result "$module" "DONE"
+      git_commit_per_module "$module"
       return 0
     fi
     [ "$INTERRUPTED" = true ] && break
@@ -3898,6 +3949,8 @@ run_sequence() {
   seqlog "Sequential driver starting. Modules: ${SEQUENCE[*]%%:*}"
   seqlog "role=$GLOBAL_ROLE  from=$FROM  force=$FORCE  audit=$MODE  resumes=$MAX_RESUMES  backoff=${BACKOFF_S}s  supervise=$SUPERVISE"
   seqlog "Everything is logged to $LOG_FILE (results to $RESULTS_FILE)."
+
+  git_ensure_init_if_needed
 
   # DP-SUPERVISOR: advertise ourselves as the (outer) driver.
   if [ "$SUPERVISE" = true ]; then
@@ -4031,7 +4084,13 @@ run_module_sweep() {
   journal_open "$MODULE" "sweep $MODULE ($TOTAL steps)" "${module_fallback_role:-}"
   if [ -n "$JOURNAL_ID" ]; then
     journal_note "**$MODE sweep of \`$MODULE\`** starting ($TOTAL steps).
-prompts: \`$PROMPTS_FILE\` · harness=$HARNESS/$KILL_MODE · model=${MODEL_NAME:-?} · fallback role=${module_fallback_role:-default}${LIMIT_ARG:+ · limit=$LIMIT_ARG}"
+ prompts: \`$PROMPTS_FILE\` · harness=$HARNESS/$KILL_MODE · model=${MODEL_NAME:-?} · fallback role=${module_fallback_role:-default}${LIMIT_ARG:+ · limit=$LIMIT_ARG}"
+  fi
+
+  # --git-init-add-per-module: ensure repo exists for single-module sweeps
+  # (sequence mode already handled in run_sequence). No-op when flag off or .git exists.
+  if [ "$SEQUENCE_MODE" != true ]; then
+    git_ensure_init_if_needed
   fi
 
   CURRENT_STEP="$START_STEP"
@@ -4213,6 +4272,11 @@ prompts: \`$PROMPTS_FILE\` · harness=$HARNESS/$KILL_MODE · model=${MODEL_NAME:
   done
 
   print_final_summary
+  # --git-init-add-per-module: commit once per module for single-module sweeps
+  # (sequence mode commits via run_one_module). Avoid double-commit in sequence.
+  if [ "$SEQUENCE_MODE" != true ] && [ "$GIT_INIT_ADD_PER_MODULE" = true ]; then
+    git_commit_per_module "$MODULE"
+  fi
   return 0
 }
 

@@ -35,7 +35,9 @@
     "lint:demodrive-faqdef": "node scripts/lint-demodrive-faqdef.ts",
     "chassis": "vite-node scripts/chassis.ts",
     "lint:dev": "vite-node scripts/lint-dev-tooling.ts",
-    "new:deck": "bash scripts/duplicate-pitch-deck.sh"
+    "new:deck": "bash scripts/duplicate-pitch-deck.sh",
+    "typecheck": "tsc --noEmit",
+    "test:mockrill": "vitest run tests/mockrill"
   },
   "bin": {
     "mock": "src/dev/mock/cli.ts",

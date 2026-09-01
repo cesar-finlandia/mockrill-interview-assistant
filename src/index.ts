@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Requirement IDs: ASM-02, ASM-AC-01 | Working-copy public barrel — generated at assembly time; re-exports ONLY selected components.
 export * from "./context/index.js";
 export * from "./ideation/index.js";

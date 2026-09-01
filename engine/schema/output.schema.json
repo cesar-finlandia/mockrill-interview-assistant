@@ -1,5 +1,75 @@
 {
-  "$comment": "TODO(ENGINE): define Engine output shape (validated via RES-04 once defined) \u2014 see docs/engine-guide.md",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$comment": "Owned by DP-CONTRACTS; DP-INTERVIEWER TurnRequest/InterviewerAction TS types must match this schema field-for-field.",
+  "title": "InterviewerAction",
   "type": "object",
-  "properties": {}
+  "required": ["say", "question", "score", "done", "degraded"],
+  "additionalProperties": false,
+  "properties": {
+    "say": { "type": "string" },
+    "question": {
+      "anyOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["id", "text", "competency", "difficulty", "follow_ups", "keyterms"],
+          "additionalProperties": false,
+          "properties": {
+            "id": { "type": "string" },
+            "text": { "type": "string" },
+            "competency": { "type": "string", "enum": ["behavioral", "technical", "situational"] },
+            "difficulty": { "type": "integer", "enum": [1, 2, 3] },
+            "follow_ups": { "type": "array", "items": { "type": "string" } },
+            "keyterms": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      ]
+    },
+    "score": {
+      "anyOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["question_id", "turn_order", "axes", "overall", "rationale", "evidence", "source"],
+          "additionalProperties": false,
+          "properties": {
+            "question_id": { "type": "string" },
+            "turn_order": { "type": "integer" },
+            "axes": {
+              "type": "object",
+              "required": ["structure", "specificity", "clarity", "relevance"],
+              "additionalProperties": false,
+              "properties": {
+                "structure": { "type": "integer", "minimum": 0, "maximum": 5 },
+                "specificity": { "type": "integer", "minimum": 0, "maximum": 5 },
+                "clarity": { "type": "integer", "minimum": 0, "maximum": 5 },
+                "relevance": { "type": "integer", "minimum": 0, "maximum": 5 }
+              }
+            },
+            "overall": { "type": "number" },
+            "rationale": { "type": "string" },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["kind", "text", "start_ms", "end_ms", "label", "note"],
+                "additionalProperties": false,
+                "properties": {
+                  "kind": { "type": "string", "enum": ["filler", "quote", "pause"] },
+                  "text": { "type": "string" },
+                  "start_ms": { "type": "number" },
+                  "end_ms": { "type": "number" },
+                  "label": { "type": "string" },
+                  "note": { "type": "string" }
+                }
+              }
+            },
+            "source": { "type": "string", "enum": ["llm", "deterministic"] }
+          }
+        }
+      ]
+    },
+    "done": { "type": "boolean" },
+    "degraded": { "type": "boolean" }
+  }
 }

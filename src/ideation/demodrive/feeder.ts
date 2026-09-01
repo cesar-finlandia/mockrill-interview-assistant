@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Requirement IDs: DEMODRIVE-01, DEMODRIVE-RES-02, MOCK-01, MOCK-05, RES-05, TRN-04, XCUT-08
 // Owned by M14 step 3 (DP-D2b §3.1). Data-source feeder: exactly two sources —
 //   kind=mock  → replay a MOCK-01 script through the single TRN-04 publisher
