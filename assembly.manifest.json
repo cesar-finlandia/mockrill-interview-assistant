@@ -1,0 +1,192 @@
+{
+  "manifest_version": "1.0.0",
+  "created_at": "2026-09-01T16:46:07.421Z",
+  "chassis_version": "v0.0.0-unresolved",
+  "components": [
+    {
+      "id": "resilience",
+      "included": true,
+      "version": "1.0.0",
+      "requires_env": [],
+      "requires_providers": []
+    },
+    {
+      "id": "platform",
+      "included": true,
+      "version": "1.0.0",
+      "requires_env": [
+        "VERCEL_TOKEN",
+        "VERCEL_PROJECT_ID"
+      ],
+      "requires_providers": [
+        "vercel"
+      ]
+    },
+    {
+      "id": "media",
+      "included": false,
+      "version": "1.0.0",
+      "requires_env": [
+        "OPENAI_API_KEY"
+      ],
+      "requires_providers": [
+        "openai",
+        "replicate",
+        "elevenlabs"
+      ]
+    },
+    {
+      "id": "ideation",
+      "included": true,
+      "version": "1.0.0",
+      "requires_env": [
+        "OPENAI_API_KEY"
+      ],
+      "requires_providers": [
+        "openai",
+        "playwright"
+      ]
+    },
+    {
+      "id": "context",
+      "included": true,
+      "version": "1.0.0",
+      "requires_env": [],
+      "requires_providers": []
+    },
+    {
+      "id": "dev-tooling",
+      "included": false,
+      "version": "1.0.0",
+      "requires_env": [],
+      "requires_providers": []
+    },
+    {
+      "id": "assembly-advisory",
+      "included": false,
+      "version": "1.0.0",
+      "requires_env": [
+        "OPENAI_API_KEY",
+        "ANTHROPIC_API_KEY"
+      ],
+      "requires_providers": [
+        "openai",
+        "anthropic"
+      ]
+    },
+    {
+      "id": "data",
+      "included": false,
+      "version": "1.0.0",
+      "requires_env": [
+        "OPENAI_API_KEY"
+      ],
+      "requires_providers": [
+        "openai"
+      ]
+    },
+    {
+      "id": "cost",
+      "included": false,
+      "version": "1.0.0",
+      "requires_env": [],
+      "requires_providers": []
+    },
+    {
+      "id": "provenance",
+      "included": true,
+      "version": "1.0.0",
+      "requires_env": [],
+      "requires_providers": []
+    },
+    {
+      "id": "pgm",
+      "included": false,
+      "version": "1.0.0",
+      "requires_env": [
+        "OPENAI_API_KEY"
+      ],
+      "requires_providers": [
+        "openai",
+        "reddit"
+      ]
+    },
+    {
+      "id": "profile",
+      "included": false,
+      "version": "1.0.0",
+      "requires_env": [
+        "OPENAI_API_KEY"
+      ],
+      "requires_providers": [
+        "openai"
+      ]
+    }
+  ],
+  "selection_rationale": [
+    {
+      "id": "resilience",
+      "decision": "include",
+      "reason": "Include resilience for LLM path: brief mandates 'LLM routing, VAD/turn-taking, JSON-Schema tool calling for rubric scoring' — withResilience + DegradedResult prevents mid-demo failure disqualification."
+    },
+    {
+      "id": "platform",
+      "decision": "include",
+      "reason": "Include platform for deployed walk-through: brief requires 'runs a realistic screening call, then returns an evidence-backed scorecard' at public URL — DEP/TRN/UI satisfies submission gate deploy check."
+    },
+    {
+      "id": "media",
+      "decision": "exclude",
+      "reason": "Exclude media: brief mandates AssemblyAI Voice Agent API Universal-3 Pro STT/ TTS via AssemblyAI wss, not generic media/stt via OPENAI_API_KEY/REPLICATE/ELEVENLABS — accepting risk of losing generic STT/TTS polish, not disqualification."
+    },
+    {
+      "id": "ideation",
+      "decision": "include",
+      "reason": "Include ideation: brief defines 'Realtime AI Mock-Interview Voice Coach on AssemblyAI' — pitching this concept requires populated deck, timed script, judge Q&A sheet, and captured demo — deckgen/script/faqdef/demodrive satisfy pitch verification and standing submission gate."
+    },
+    {
+      "id": "context",
+      "decision": "include",
+      "reason": "Include context for voice turn history: brief's 'single-connection Voice Agent API interviewer (Universal-3 Pro STT, LLM routing' requires provider-agnostic message buffer across interview turns."
+    },
+    {
+      "id": "dev-tooling",
+      "decision": "exclude",
+      "reason": "Exclude dev-tooling: brief lists no requirement for mock/eval/doctor/track/bench harness — accepting risk of losing local eval polish, not Stage-One disqualification."
+    },
+    {
+      "id": "assembly-advisory",
+      "decision": "exclude",
+      "reason": "Exclude assembly-advisory: ASM/ADV rarely needed in working copy — brief does not mandate in-copy re-assembly; accepting risk of manual architecture verification only."
+    },
+    {
+      "id": "data",
+      "decision": "exclude",
+      "reason": "Exclude data: synthetic seeded transcript is dev-convenience (GOV-MIN-04) not Stage-One required — accepting risk of needing live mic, not disqualification."
+    },
+    {
+      "id": "cost",
+      "decision": "exclude",
+      "reason": "Exclude cost: brief contains no credit/cost cap, budget limit, or 'track api costs' metering requirement — accepting risk of untracked credit burn mid-demo, not disqualification for this track."
+    },
+    {
+      "id": "provenance",
+      "decision": "include",
+      "reason": "Include provenance: brief promises 'evidence-backed scorecard quoting exact spoken moments' requiring disclosure of generated vs. spoken evidence — prov/submit satisfies disclosure doc + repo hygiene walk-through for standing submission gate."
+    },
+    {
+      "id": "pgm",
+      "decision": "exclude",
+      "reason": "pgm is pre-assembly market research only, never part of the delivered app (NONGOAL-12)"
+    },
+    {
+      "id": "profile",
+      "decision": "exclude",
+      "reason": "Exclude profile: already run pre-assembly, not part of delivered app — brief does not explicitly scope re-assembly inside working copy."
+    }
+  ],
+  "git": {
+    "initialized": true,
+    "baseline_commit": "1b6466e4f2b5ad92ea0025f2da8f8bfb36581455"
+  }
+}
