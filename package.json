@@ -17,6 +17,7 @@
     "test:offline": "pnpm -F resilience run test:offline",
     "test:context": "pnpm -F context run test",
     "dev": "vite",
+    "build": "tsc --noEmit",
     "build:ui": "vite build",
     "mock:publish": "vite-node scripts/mock-publish.ts",
     "demodrive": "vite-node src/ideation/demodrive/cli.ts",
