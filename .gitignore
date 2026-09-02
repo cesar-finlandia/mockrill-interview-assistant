@@ -41,3 +41,7 @@ _run.log
 run_state.json
 handout.md
 handout_active.md
+private/
+node_modules/
+dist/
+.tmp-golden/
