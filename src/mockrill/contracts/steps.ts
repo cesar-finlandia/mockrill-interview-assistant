@@ -9,7 +9,9 @@ export type StepPayloads = {
   "mic-capture": { sample_rate: number; muted: boolean; error?: string };
   "transcript-partial": { turn: TranscriptTurn };
   "transcript-final": { turn: TranscriptTurn };
-  "question-asked": { question: InterviewQuestion; spoken: string };
+  // latency_ms is the measured end_of_turn -> speech-start delta (NFR-06). It is optional
+  // because a replayed/mocked envelope has no live measurement to report.
+  "question-asked": { question: InterviewQuestion; spoken: string; latency_ms?: number };
   "answer-scored": { score: AnswerScore };
   "scorecard-ready": { scorecard: Scorecard };
   "drill-start": { question_id: string; attempt: number };

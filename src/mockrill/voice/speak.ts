@@ -4,7 +4,10 @@ export type Speaker = {
   speak(text: string): Promise<void>;
   cancel(): void;
   readonly speaking: boolean;
+  /** speechSynthesis exists in this browser. */
   readonly available: boolean;
+  /** A voice is actually installed, i.e. the question will be heard and not only read. */
+  readonly audible: boolean;
 };
 
 const VOICE_WAIT_MS = 1500;
@@ -67,8 +70,21 @@ export function createSpeaker(): Speaker {
   // When available===false (SSR or browser without speechSynthesis), speak() resolves immediately.
   // The caller (turnController) MUST render the text on screen instead — check speaker.available before relying on audio.
 
+  function voiceCount(): number {
+    if (!available) return 0;
+    try {
+      return ((window as unknown as { speechSynthesis: SpeechSynthesis }).speechSynthesis.getVoices() ?? []).length;
+    } catch {
+      return 0;
+    }
+  }
+
   function speak(text: string): Promise<void> {
     if (!available) return Promise.resolve();
+    // R-05: a machine with speechSynthesis but zero installed voices (headless Chromium,
+    // some Linux desktops) accepts speak() and then never fires onend. Resolving straight
+    // away keeps the session moving; the UI already shows the question as on-screen text.
+    if (voiceCount() === 0) return Promise.resolve();
     if (speaking) cancel();
     const UtteranceCtor = (globalThis as unknown as { SpeechSynthesisUtterance: new (t: string) => SpeechSynthesisUtterance }).SpeechSynthesisUtterance ?? (window as unknown as { SpeechSynthesisUtterance: new (t: string) => SpeechSynthesisUtterance }).SpeechSynthesisUtterance;
     const utterance = new UtteranceCtor(text);
@@ -142,6 +158,9 @@ export function createSpeaker(): Speaker {
     },
     get available() {
       return available;
+    },
+    get audible() {
+      return voiceCount() > 0;
     },
     speak,
     cancel,

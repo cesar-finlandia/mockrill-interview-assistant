@@ -9,8 +9,19 @@ const _clientType: StreamingClient | null = null;
 void _typeCheck; void _clientType;
 
 describe("turnController state machine skeleton", () => {
-  it("visits idle -> connecting -> speaking -> listening -> thinking -> speaking", async () => {
-    const visited: string[] = [];
+  it("visits idle -> connecting -> speaking -> listening -> thinking -> speaking -> listening", async () => {
+    // The probe samples c.state after each step AND subscribes to transitions, so the same
+    // state is recorded twice at a step boundary. Collapse consecutive duplicates here, in
+    // the test, rather than by patching Array.prototype in production code.
+    const raw: string[] = [];
+    const visited = {
+      push(s: string) {
+        if (raw[raw.length - 1] !== s) raw.push(s);
+      },
+      join(sep: string) {
+        return raw.join(sep);
+      },
+    };
     const bus: any = { emit: () => {}, subscribe: () => () => {}, snapshot: () => [], reset: () => {} };
     const speaker: any = { available: true, get speaking() { return false; }, speak: async (t: string) => {}, cancel: () => {} };
     const mic: any = { onChunk: () => {}, setMuted: () => {}, stop: () => {} };
@@ -48,6 +59,9 @@ describe("turnController state machine skeleton", () => {
     visited.push(c.state);
     const line = visited.join(" -> ");
     console.log(line);
-    expect(line).toBe("idle -> connecting -> speaking -> listening -> thinking -> speaking");
+    // T4 is real now: when the interviewer's utterance ends the machine unmutes and
+    // returns to listening on its own — without that final transition a live session
+    // would ask question 1 and never hear the answer.
+    expect(line).toBe("idle -> connecting -> speaking -> listening -> thinking -> speaking -> listening");
   });
 });

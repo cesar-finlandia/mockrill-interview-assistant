@@ -1,5 +1,7 @@
 // DP-INTERVIEWER M28 — keep withResilience wrapper config exactly; only inner body was replaced.
 import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { fit } from "src/context";
 import { chatCompletion } from "src/mockrill/engine/llmGateway.js";
 import bank from "engine/rag/question-bank.json" with { type: "json" };
@@ -10,6 +12,37 @@ import type { InterviewQuestion } from "src/mockrill/contracts";
 import type { Message } from "src/context";
 
 const fillerLexiconExtension = new Set<string>();
+
+/** Smallest context window across the primary and fallback LLM Gateway models (qwen3.5-4b-32k-fast). */
+const LLM_CONTEXT_WINDOW = 32_000;
+
+/**
+ * Prompts live on disk so they can be edited without a rebuild. The working directory
+ * differs between `vite dev`, `vite preview` and a Vercel lambda, so each candidate is tried
+ * before the caller falls back to its inline default.
+ */
+function readPrompt(relative: string): string | null {
+  const here = (() => {
+    try {
+      return path.dirname(fileURLToPath(import.meta.url));
+    } catch {
+      return null;
+    }
+  })();
+  const candidates = [
+    relative,
+    path.join(process.cwd(), relative),
+    ...(here ? [path.resolve(here, "../..", relative), path.resolve(here, "..", relative.replace(/^engine\//, ""))] : []),
+  ];
+  for (const candidate of candidates) {
+    try {
+      return fs.readFileSync(candidate, "utf8");
+    } catch {
+      /* try the next candidate */
+    }
+  }
+  return null;
+}
 
 function render(template: string, vars: Record<string, string>): string {
   let out = template;
@@ -96,7 +129,23 @@ export const callInterviewer = withResilience(async (req: TurnRequest): Promise<
     buffer.push({ role: "user", content: finalUserContent, metadata: { timestamp: new Date().toISOString() } });
   }
   // 2. Fit
-  const fitted = fit(buffer, { model_profile: "balanced", reserved_output: 1024, strategy: "sliding-window-pinned", warning_threshold: 0.8 });
+  // "balanced" is not a tokenizer profile — it is the AssemblyAI streaming `mode`. Passing it
+  // here made every fit() call warn and silently fall back to the generic 8192-token window,
+  // truncating the interview history to a fraction of what the model can actually hold and
+  // costing follow-up quality (FR-06). The window is stated explicitly instead: the primary
+  // model is claude-sonnet-4-6 (200k) and the fallback qwen3.5-4b-32k-fast (32k); the smaller
+  // of the two is used so a mid-session model switch can never overflow.
+  //
+  // The chassis still logs `unknown model_profile` because contracts/tokenizer-profiles.json
+  // is absent from this working copy — that lookup only supplies a window, which is now given
+  // explicitly, so the warning is cosmetic. contracts/ is read-only, so it stays.
+  const fitted = fit(buffer, {
+    model_profile: "anthropic-heuristic",
+    context_window: LLM_CONTEXT_WINDOW,
+    reserved_output: 1024,
+    strategy: "sliding-window-pinned",
+    warning_threshold: 0.8,
+  });
   const fittedBuffer = fitted.buffer;
   // if fit.status.rejected still proceed — fittedBuffer already truncated with pinned preserved
   // 3. One chatCompletion call exactly once per invocation
@@ -135,10 +184,14 @@ export const callInterviewer = withResilience(async (req: TurnRequest): Promise<
       const relevance = clampAxis(args["relevance"]);
       const llmRationale = args["rationale"] != null ? String(args["rationale"]) : "";
       if (!rationale) rationale = llmRationale;
-      const qForScoring = (question as InterviewQuestion | null) ?? lookupQuestionBank(req.role, asked[asked.length - 1] ?? "") ?? getRoleQuestions(req.role)[0] ?? null;
+      // The turn being scored answers the question that was asked LAST, not the one
+      // select_question just picked for next — attributing it to the new pick would
+      // overwrite an earlier score and leave the final answer unscored (FR-07).
+      const answeredId = asked[asked.length - 1] ?? "";
+      const qForScoring = lookupQuestionBank(req.role, answeredId) ?? (question as InterviewQuestion | null) ?? getRoleQuestions(req.role)[0] ?? null;
       const fallbackQ = qForScoring ?? getRoleQuestions(req.role)[0]!;
       const llmScore: import("src/mockrill/contracts").AnswerScore = {
-        question_id: (question as InterviewQuestion | null)?.id ?? req.asked[req.asked.length - 1] ?? "unknown",
+        question_id: answeredId !== "" ? answeredId : ((question as InterviewQuestion | null)?.id ?? "unknown"),
         turn_order: req.last_turn.turn_order,
         axes: { structure, specificity, clarity, relevance } as Record<import("src/mockrill/contracts").RubricAxis, number>,
         overall: Math.round(((structure + specificity + clarity + relevance) / 4) * 10) / 10,
@@ -207,7 +260,9 @@ export const callInterviewer = withResilience(async (req: TurnRequest): Promise<
     }
     let score: import("src/mockrill/contracts").AnswerScore | null = null;
     if (r.last_turn !== null) {
-      const qForScore = picked ?? list[0] ?? null;
+      // Same attribution rule as the LLM path: score the question that was asked last.
+      const answeredId = r.asked[r.asked.length - 1] ?? "";
+      const qForScore = lookupQuestionBank(r.role, answeredId) ?? picked ?? list[0] ?? null;
       if (qForScore) score = scoreAnswerDeterministic(r.last_turn, qForScore);
     }
     const done = isDone(r, picked);

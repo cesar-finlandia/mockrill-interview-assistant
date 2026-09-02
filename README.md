@@ -10,11 +10,42 @@ cp .env.example .env   # then set ASSEMBLYAI_API_KEY in .env
 npm run dev             # or npm run build && npm run preview
 ```
 
-Copy `.env.example` to `.env`, set `ASSEMBLYAI_API_KEY` in `.env`, then `npm run dev` (Vite on https or localhost) and open http://localhost:5173.
+Open http://localhost:5173. The dev server serves the UI **and** the three serverless routes
+(`/api/aai-token`, `/api/turn`, `/health`), so the whole app runs locally.
+
+### Try it without a key or a microphone
+
+Append `?sim=1` to any URL — local or deployed:
+
+    http://localhost:5173/?sim=1
+
+The microphone and the AssemblyAI socket are replaced by a replay of
+`fixtures/mockrill/session-golden.json`; everything else (turn-taking, `/api/turn`, scoring,
+the scorecard, the re-drill loop) is the real code path. No permission prompt, no credential,
+no cost. Without `?sim=1` and without a working key the app detects that at startup and falls
+back to the same replay with a **degraded** badge explaining why.
 
 ## Hosted URL
 
 `https://<app>.vercel.app` — production deployment (PUBLIC_URL from DP-DEPLOY). Placeholder before deploy: `https://mockrill.vercel.app` — deployed URL after npm run deploy.
+
+## Testing
+
+```sh
+npm run typecheck      # tsc --noEmit
+npm run test:mockrill  # 42 unit tests
+npm run test:e2e       # browser E2E: 29 Playwright tests across 3 projects
+npm run test:all       # all three, in order
+```
+
+The E2E suite drives a real Chromium through every use case — setup, the live call, scoring,
+the evidence-backed scorecard, the re-drill loop, the degraded ladder, the SSE replay and the
+production bundle. Strategy, the requirement→spec coverage matrix and the runbook are in
+[`design_documents/e2e-testing/`](design_documents/e2e-testing/). Playwright starts every
+server it needs; `npx playwright install chromium` once first.
+
+The live AssemblyAI path (`tests/e2e/live.spec.ts`) skips itself unless `ASSEMBLYAI_API_KEY`
+is set, because it mints a real token and opens a real, billed socket.
 
 ## Architecture
 
@@ -26,9 +57,9 @@ See `docs/chassis-modules.mmd` for module provenance (the two diagrams are compl
 
 ```sh
 npm run build
-npm run preview -- --port 4173 &
-npm run mock:publish              # vite-node scripts/mockrill-mock-publish.ts SSE :8787/events/stream
-open http://localhost:4173?source=stream
+npm run preview &                 # http://localhost:4173
+npm run mock:publish              # SSE replay on :8787, proxied to /events/stream
+open http://localhost:4173/?source=stream
 ```
 
 `npm run mock:publish` replays `fixtures/mockrill/session-golden.json` via SSE at `:8787/events/stream` and the app at `http://localhost:4173?source=stream` renders the same screens without a live key.

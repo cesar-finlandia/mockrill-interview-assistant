@@ -37,7 +37,9 @@
   ],
   "functions": {
     "api/**/*.ts": {
-      "runtime": "nodejs20.x"
+      "runtime": "nodejs20.x",
+      "$comment-includeFiles": "engine/prompts/*.md are read at runtime by engine/agents; without this they are absent from the lambda and the interviewer silently falls back to its inline prompt, costing answer quality on the deployed URL.",
+      "includeFiles": "engine/prompts/**"
     }
   }
 }

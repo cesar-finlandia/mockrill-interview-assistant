@@ -8,8 +8,16 @@ export type GatewayRequest = { messages: Message[]; model?: string };
 export type GatewayResponse = { content: string | null; tool_calls: Array<{ id: string; name: string; arguments: unknown }> | null; raw: unknown; model: string; degraded: boolean };
 
 export async function chatCompletion(req: GatewayRequest): Promise<GatewayResponse | DegradedResult<GatewayResponse>> {
+  const key = process.env.ASSEMBLYAI_API_KEY;
+  // No key means every request is a guaranteed 401. Calling anyway costs ~10s per turn
+  // (two models x timeout x one retry) before the deterministic fallback runs, which is the
+  // difference between a demo that feels instant on rung 2 and one that feels broken.
+  // api/aai-token.ts already degrades this way; this keeps the two consistent.
+  if (!key || key.trim() === "") {
+    return makeDegradedResult<GatewayResponse>({ reason: "aai_key_missing", fallback_source: "none" });
+  }
   const headers: Record<string, string> = {
-    Authorization: process.env.ASSEMBLYAI_API_KEY ?? "",
+    Authorization: key,
     "Content-Type": "application/json",
   };
 

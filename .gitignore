@@ -13,35 +13,98 @@ secrets*.json
 .gcp/
 .azure/
 *service-account*.json
+
+# --- Build output and dependencies -------------------------------------------------
+node_modules/
+dist/
 .cache/
-# chassis artifacts not in submission
+.vite/
+.vercel/
+
+# --- Test artifacts ----------------------------------------------------------------
+# Playwright writes traces, videos and screenshots per failing test; the specs in
+# tests/e2e/ are the deliverable, the run output is not.
+.playwright-results/
+.playwright-report/
+playwright-report/
+test-results/
+.tmp-golden/
+.diag.mjs
+
+# --- Chassis scratch ---------------------------------------------------------------
 /examples/
-# IDE
+
+# --- IDE / OS ----------------------------------------------------------------------
 .DS_Store
-# --- run_sweep.sh engine-building harness (added 2026-08-25, DP-G amendment):
-# everything the sweep driver creates while implementing the engine ---
+Thumbs.db
+.idea/
+.vscode/
+
+# ===================================================================================
+# run_sweep.sh — the engine-building harness that produced this implementation.
+#
+# It is a generic multi-agent driver, not part of the Mockrill entry, and it reads and
+# writes the paths below as it runs. None of them belong in the public submission
+# repository: they are transcripts, prompt scaffolding, lock files, session state and
+# per-step telemetry from the build process. Enumerated by reading run_sweep.sh.
+# ===================================================================================
+
+# The harness itself and its configuration inputs
+run_sweep.sh
+run_planner.conf
+run_sequential.conf
+run_sequential_md.conf
+.planner_prompt_*.md
+models.json
+
+# Design inputs the harness consumes — the master blueprint and the ten design plans.
+# R-07: these must never reach the public repo.
+private/
+
+# Per-run working directories
 .chat/
 .run_sweep/
-.run_sweep.lock
 .control/
 .intramessages/
 .pi_sessions/
 .supervisor/
 .run_summaries/
-.step_sids.tmp
+
+# Lock files (directories on Windows: <lock>/winpid)
+.run_sweep.lock
+.run_agent.lock
+.run_sequential.lock
+
+# Driver logs and result files
+_run.log
+_run.log.*
+_driver.log
+_handout.log
+.debug_run.log
 .sequential_run.log
+.sequential_run.log.*
+.planner_run.log
+supervisor.log
+supervisor.pid
+
+# Run state, step records and telemetry
+run_state.json
+.run_step_records.txt
 .sequential_results.txt
 .planner_results.txt
-.planner_run.log
-.prompt_flight.md
-.debug_run.log
-status_report.md
-_driver.log
-_run.log
-run_state.json
+.step_sids.tmp
+.step_metrics_*
+
+# Handout / prompt scratch files
 handout.md
 handout_active.md
-private/
-node_modules/
-dist/
-.tmp-golden/
+.handout.tmp
+.prompt_flight.md
+.chat_*.tmp
+_resume.md
+
+# Reports the harness emits into the working copy
+status_report.md
+RUN-REPORT.md
+FINDINGS.md
+AGENTS.md

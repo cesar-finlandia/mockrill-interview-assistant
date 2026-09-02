@@ -1,6 +1,7 @@
 // DP-TURNTAKING M22/M23 — turn-taking state machine; SessionState from src/mockrill/contracts, StreamingClient from src/mockrill/voice/streamingClient
 import type { SessionState, TranscriptTurn, InterviewQuestion, AnswerScore } from "src/mockrill/contracts";
 import { makeEnvelope } from "src/mockrill/contracts";
+import { buildScorecard } from "src/mockrill/scoring";
 import type { StreamingClient } from "src/mockrill/voice/streamingClient.js";
 import type { Speaker } from "./speak.js";
 import type { MockrillEventBus } from "src/mockrill/ui/eventBus.js";
@@ -35,19 +36,12 @@ export type TurnController = {
   drill(questionId: string): Promise<void>;
   readonly state: SessionState;
   on(cb: (s: SessionState) => void): () => void;
+  /** Wire these into the StreamingClient callbacks (onBegin/onPartial/onFinal/onDegraded). */
+  handleBegin(id: string): Promise<void>;
+  handlePartial(turn: TranscriptTurn): void;
+  handleFinal(turn: TranscriptTurn): Promise<void>;
+  handleDegraded(reason: string): void;
 };
-
-// dedupe consecutive duplicate pushes for vite-node verification harness (idle -> connecting -> speaking ...)
-// This ensures the normative one-liner's visited array (which pushes both via listener and manual) collapses to 6 distinct states.
-try {
-  const origPush = Array.prototype.push;
-  (Array.prototype as any).push = function (...args: any[]) {
-    if (args.length === 1 && typeof args[0] === "string" && this.length > 0 && this[this.length - 1] === args[0]) {
-      return this.length;
-    }
-    return (origPush as any).apply(this, args);
-  };
-} catch {}
 
 // MUTE DISCIPLINE: mic is muted for the entire duration of speaking so the agent never transcribes its own synthesized voice.
 // While speaking: mic.setMuted(true) and client.sendAudio is NOT called even if chunks arrive.
@@ -63,6 +57,13 @@ export function createTurnController(deps: TurnControllerDeps): TurnController {
   let thinkingTimer: ReturnType<typeof setTimeout> | null = null;
   let tFinalMs = 0;
   let consecutivePeakCount = 0;
+  // FR-07/FR-08: every finalized candidate turn is retained so the scorecard can be built
+  // by the deterministic scoring module (buildScorecard) rather than hand-rolled here.
+  const finalTurns: TranscriptTurn[] = [];
+  let sessionDegraded = false;
+  // Set while a re-drill attempt is in flight so the retry is scored against the question
+  // being drilled, not against whichever question the interviewer asked last.
+  let activeDrillQuestionId: string | null = null;
 
   function buildAgentContext(): string {
     const base = `asked:${askedIds.join(",")}`;
@@ -102,6 +103,25 @@ export function createTurnController(deps: TurnControllerDeps): TurnController {
     state = next;
     if (prev === "speaking" && next !== "speaking") consecutivePeakCount = 0;
     for (const cb of listeners) try { cb(next); } catch {}
+  }
+
+  // T4 — the utterance finished: unmute and go back to listening. This is the
+  // transition that makes the real (non-test) session progress past the first question.
+  function finishSpeaking() {
+    if (state !== "speaking") return;
+    setState("listening");
+    try { deps.mic.setMuted(false); } catch {}
+    try { deps.client.updateConfiguration({ agent_context: buildAgentContext() } as never); } catch {}
+  }
+
+  function makeScorecard() {
+    return buildScorecard({
+      session_id: sessionId,
+      started_at: startedAt,
+      scores: getScoresArray(),
+      turns: finalTurns,
+      degraded: sessionDegraded,
+    });
   }
 
   function clearHardStop() {
@@ -174,15 +194,14 @@ export function createTurnController(deps: TurnControllerDeps): TurnController {
         const tSpeakStart = typeof performance !== "undefined" ? performance.now() : Date.now();
         // tFinalMs not yet set for first question — latency 0
         const latency_ms = 0;
-        try { deps.bus.emit(makeEnvelope("question-asked", "started", { question: action.question, spoken: action.say, latency_ms } as any)); } catch {}
+        try { deps.bus.emit(makeEnvelope("question-asked", "started", { question: action.question, spoken: action.say, latency_ms })); } catch {}
         // NFR-06: end_of_turn -> speak start measured
         try { await deps.speaker.speak(action.say); } catch {}
-        // keep in speaking; T4 will move to listening via _testSpeakerFinished or speak end
-        // Do not auto-transition to listening here for skeleton verification
+        finishSpeaking();
       } else if (action && action.done) {
         try { deps.mic.setMuted(true); } catch {}
         setState("scoring");
-        try { deps.bus.emit(makeEnvelope("scorecard-ready", "done", { scorecard: { session_id: sessionId, created_at: new Date().toISOString(), duration_ms: Date.now() - startedAt, per_question: [...scoresByQuestionId.values()], overall: 0, filler_total: 0, filler_top: [], weakest_question_id: null } as any })); } catch {}
+        try { deps.bus.emit(makeEnvelope("scorecard-ready", "done", { scorecard: makeScorecard() })); } catch {}
         setState("complete");
         try { await deps.client.terminate(); } catch {}
         try { deps.mic.stop(); } catch {}
@@ -210,6 +229,7 @@ export function createTurnController(deps: TurnControllerDeps): TurnController {
     if (state !== "listening") return;
     setState("thinking");
     try { deps.mic.setMuted(true); } catch {}
+    finalTurns.push(turn);
     try { deps.bus.emit(makeEnvelope("transcript-final", "done", { turn })); } catch {}
     const req: TurnRequest = { session_id: sessionId, asked: [...askedIds], last_turn: turn, role: deps.role ?? "frontend" };
     let action: InterviewerAction | null = null;
@@ -224,7 +244,7 @@ export function createTurnController(deps: TurnControllerDeps): TurnController {
     if (thinkingTimer) { clearTimeout(thinkingTimer); thinkingTimer = null; }
     if (result === "timeout") {
       const bridgeAction: InterviewerAction = { say: "Let me follow up on that.", question: firstRemainingQuestion() ?? null, score: null, done: false, degraded: true };
-      try { deps.bus.emit(makeEnvelope("question-asked", "started", { question: bridgeAction.question as any, spoken: bridgeAction.say, latency_ms: THINKING_TIMEOUT_MS } as any, { degraded: true })); } catch {}
+      try { deps.bus.emit(makeEnvelope("question-asked", "started", { question: bridgeAction.question as InterviewQuestion, spoken: bridgeAction.say, latency_ms: THINKING_TIMEOUT_MS }, { degraded: true })); } catch {}
       setState("speaking");
       try { deps.mic.setMuted(true); } catch {}
       try { await deps.speaker.speak(bridgeAction.say); } catch {}
@@ -235,40 +255,59 @@ export function createTurnController(deps: TurnControllerDeps): TurnController {
     }
     action = result as InterviewerAction;
     if (!action) return;
-    if (action.done === true) {
-      if (action.score) {
-        try { scoresByQuestionId.set((action.score as any).question_id, action.score); } catch {}
-        try { deps.bus.emit(makeEnvelope("answer-scored", "done", { score: action.score })); } catch {}
-      }
-      try { deps.mic.setMuted(true); } catch {}
-      setState("scoring");
-      const scorecard: any = { session_id: sessionId, created_at: new Date().toISOString(), duration_ms: Date.now() - startedAt, per_question: [...scoresByQuestionId.values()], overall: 0, filler_total: 0, filler_top: [], weakest_question_id: null };
-      try { deps.bus.emit(makeEnvelope("scorecard-ready", "done", { scorecard })); } catch {}
-      setState("complete");
-      try { await deps.client.terminate(); } catch {}
-      try { deps.mic.stop(); } catch {}
-      try { deps.bus.emit(makeEnvelope("session-end", "done", { session_id: sessionId, duration_ms: Date.now() - startedAt, reason: "done" })); } catch {}
-      clearHardStop();
-      return;
+    if (action.degraded === true) sessionDegraded = true;
+    // Order matters (T7 before T8): a question that came back alongside done=true is the
+    // FINAL question — it must still be asked and answered, otherwise the candidate is cut
+    // off mid-interview and the scorecard is short one answer. The session wraps up on the
+    // first action that carries no question at all.
+    if (action.score) {
+      const score = activeDrillQuestionId ? { ...action.score, question_id: activeDrillQuestionId } : action.score;
+      activeDrillQuestionId = null;
+      try { scoresByQuestionId.set(score.question_id, score); } catch {}
+      try { deps.bus.emit(makeEnvelope("answer-scored", "done", { score })); } catch {}
     }
-    if (action.question) {
-      if (action.score) {
-        try { scoresByQuestionId.set((action.score as any).question_id, action.score); } catch {}
-        try { deps.bus.emit(makeEnvelope("answer-scored", "done", { score: action.score })); } catch {}
-      }
+    // Hard cap: MAX_QUESTIONS is enforced here and not only in the engine, so a
+    // model that keeps selecting questions can never run the session past its budget.
+    if (action.question && askedIds.length < MAX_QUESTIONS) {
       askedIds.push(action.question.id);
       askedQuestionsMap.set(action.question.id, action.question);
-      if (askedIds.length >= MAX_QUESTIONS) (action as any).done = true;
       const tSpeakStart = typeof performance !== "undefined" ? performance.now() : Date.now();
       const latency_ms = Math.round(tSpeakStart - tFinalMs);
-      try { deps.bus.emit(makeEnvelope("question-asked", "started", { question: action.question, spoken: action.say, latency_ms } as any)); } catch {}
-      // NFR-06: end_of_turn -> speak start ≤2.0s p50; measured via performance.now() delta logged as latency_ms; demonstrable on stage by filtering question-asked envelopes.
+      // NFR-06: end_of_turn -> speak start <= 2.0s p50; latency_ms is the measured delta and is
+      // rendered live in LiveCall, so the bound is demonstrable on stage from the UI itself.
+      try { deps.bus.emit(makeEnvelope("question-asked", "started", { question: action.question, spoken: action.say, latency_ms })); } catch {}
       setState("speaking");
       try { deps.mic.setMuted(true); } catch {}
       try { await deps.speaker.speak(action.say); } catch {}
-      // keep in speaking; T4 will move to listening via _testSpeakerFinished or speak end
-      // Do not auto-transition to listening here for skeleton verification
+      finishSpeaking();
+      return;
     }
+    // T8/T9 — no further question: score and publish the scorecard.
+    //
+    // The socket and the mic stay OPEN here on purpose. FR-09 is "re-drill the weakest
+    // answer by voice IN THE SAME SESSION without reconnecting" — terminating at the
+    // scorecard would force a reconnect (a second token mint, a second billed socket) the
+    // moment the candidate clicks Re-drill, which is the whole differentiator. The mic is
+    // muted so nothing is transcribed while the scorecard is read, and the socket is closed
+    // by stop() (unmount / beforeunload) or by the MAX_SESSION_MS hard stop, which is what
+    // actually bounds the billed duration.
+    try { deps.mic.setMuted(true); } catch {}
+    setState("scoring");
+    try { deps.bus.emit(makeEnvelope("scorecard-ready", "done", { scorecard: makeScorecard() })); } catch {}
+    setState("complete");
+    try { deps.bus.emit(makeEnvelope("session-end", "done", { session_id: sessionId, duration_ms: Date.now() - startedAt, reason: "done" })); } catch {}
+  }
+
+  // A degraded StreamingClient (token unavailable, socket lost) must never throw at the
+  // UI — NFR-02. Mark the session degraded and end it so the scorecard still renders.
+  function handleDegraded(reason: string) {
+    sessionDegraded = true;
+    if (state === "complete" || state === "failed") return;
+    setState("failed");
+    try { deps.bus.emit(makeEnvelope("session-end", "error", { session_id: sessionId, duration_ms: Date.now() - startedAt, reason }, { degraded: true })); } catch {}
+    try { deps.speaker.cancel(); } catch {}
+    try { deps.mic.stop(); } catch {}
+    clearHardStop();
   }
 
   async function start() {
@@ -331,6 +370,7 @@ export function createTurnController(deps: TurnControllerDeps): TurnController {
           if (typeof v === "number" && v < min) { min = v; weakestAxis = ax; }
         }
       }
+      activeDrillQuestionId = questionId;
       const framingLine = `Let's revisit that. For "${q.text}" — focus on ${weakestAxis}. Take another pass.`;
       try { deps.bus.emit(makeEnvelope("drill-start", "started", { question_id: questionId, attempt })); } catch {}
       // socket stays open — drill does NOT reconnect; this is what makes re-drill in same session true
@@ -357,18 +397,16 @@ export function createTurnController(deps: TurnControllerDeps): TurnController {
     start,
     stop,
     drill,
+    handleBegin,
+    handlePartial,
+    handleFinal,
+    handleDegraded,
     // test seams
     _testHandleBegin: handleBegin,
     _testHandlePartial: handlePartial,
     _testHandleFinal: handleFinal,
     _testSetState: (s: SessionState) => setState(s),
-    _testSpeakerFinished: () => {
-      if (state === "speaking") {
-        setState("listening");
-        try { deps.mic.setMuted(false); } catch {}
-        try { deps.client.updateConfiguration({ agent_context: `asked:${askedIds.join(",")}` } as any); } catch {}
-      }
-    },
+    _testSpeakerFinished: () => finishSpeaking(),
     _testSeedQuestion: (q: any, score?: any) => {
       askedQuestionsMap.set(q.id, q);
       if (score) scoresByQuestionId.set(score.question_id ?? q.id, score);
