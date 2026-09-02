@@ -30,7 +30,8 @@
   "ignorePaths": [
     "examples/dummy-fixtures/**",
     "contracts/**",
-    "hygiene-report.*"
+    "hygiene-report.*",
+    ".env.example"
   ],
   "commitDistribution": { "bucket": "1h", "threshold": 0.8 }
 }

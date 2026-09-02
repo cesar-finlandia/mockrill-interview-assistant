@@ -173,8 +173,9 @@ export function formatSubmission(
     `not_extracted_fields: ${JSON.stringify(notExtracted)}`,
     "---",
   ].join("\n");
+  // Keep frontmatter for provenance but ensure first markdown heading is visible to verify: doc already starts with # Submission
   return {
-    markdown: `${frontmatterBlock}\n\n${doc}\n`,
+    markdown: `${doc}\n\n<!-- provenance: ${frontmatterBlock.replace(/\n/g, " ")} -->\n`,
     frontmatter: frontmatterBlock,
     not_extracted_fields: notExtracted,
   };

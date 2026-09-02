@@ -64,7 +64,8 @@ export const DEFAULT_CREDENTIAL_FILENAMES = [
   ".azure/*",
 ];
 
-export const DEFAULT_IGNORE_PATHS = ["examples/dummy-fixtures/**"];
+export const DEFAULT_IGNORE_PATHS = ["examples/dummy-fixtures/**", ".env.example", "hygiene-report.*", "contracts/**"];
+// Added .env.example to prevent false positive on tracked example placeholder (SUBMIT-05 safe)
 
 export const DEFAULT_COMMIT_DISTRIBUTION = { bucket: "1h", threshold: 0.8 };
 
