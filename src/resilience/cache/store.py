@@ -174,6 +174,17 @@ def _resolve_key_location(root: Path, key: str):
     return directory, name
 
 
+def _normalize_cache_key(key: str) -> str:
+    if key.startswith(REPLAY_PREFIX):
+        name = key[len(REPLAY_PREFIX):]
+        if len(name) == 64 and all(c in "0123456789abcdef" for c in name):
+            return key
+        return REPLAY_PREFIX + derive_key_standalone(explicit_key=name)
+    if len(key) == 64 and all(c in "0123456789abcdef" for c in key):
+        return key
+    return derive_key_standalone(explicit_key=key)
+
+
 #endregion
 
 #region GoldenCache (DP-A §5.3 read/write API)
@@ -196,7 +207,8 @@ class GoldenCache:
     # -- read/write API -----------------------------------------------------
 
     def get(self, key: str) -> Optional[Any]:  # noqa: A003
-        loc = _resolve_key_location(self.root, key)
+        eff = _normalize_cache_key(key)
+        loc = _resolve_key_location(self.root, eff)
         if loc is None:
             return None
         directory, name = loc
@@ -225,7 +237,8 @@ class GoldenCache:
         value: Any,
         meta: Optional[Dict[str, Any]] = None,
     ) -> None:
-        loc = _resolve_key_location(self.root, key)
+        eff = _normalize_cache_key(key)
+        loc = _resolve_key_location(self.root, eff)
         if loc is None:
             return
         directory, name = loc
@@ -254,11 +267,12 @@ class GoldenCache:
         explicit_key = meta.get("explicit_key")
         if isinstance(explicit_key, str) and explicit_key:
             entry["explicit_key"] = explicit_key
-        index["entries"][key] = entry
+        index["entries"][eff] = entry
         _write_index(self.root, index)
 
     def has(self, key: str) -> bool:
-        loc = _resolve_key_location(self.root, key)
+        eff = _normalize_cache_key(key)
+        loc = _resolve_key_location(self.root, eff)
         if loc is None:
             return False
         directory, name = loc
@@ -279,7 +293,8 @@ class GoldenCache:
         return derive_key_standalone(provider, model, prompt, explicit_key=explicit_key)
 
     def delete(self, key: str) -> bool:
-        loc = _resolve_key_location(self.root, key)
+        eff = _normalize_cache_key(key)
+        loc = _resolve_key_location(self.root, eff)
         if loc is None:
             return False
         directory, name = loc
@@ -294,8 +309,8 @@ class GoldenCache:
             return False
         try:
             index = _read_index(self.root)
-            if index and key in index["entries"]:
-                del index["entries"][key]
+            if index and eff in index["entries"]:
+                del index["entries"][eff]
                 _write_index(self.root, index)
         except Exception:  # noqa: BLE001 — manifest cleanup is best-effort
             pass

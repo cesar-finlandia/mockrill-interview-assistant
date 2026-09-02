@@ -168,6 +168,16 @@ function resolveKeyLocation(rootDir: string, key: string): KeyLocation | null {
   return { dir, name };
 }
 
+function normalizeCacheKey(key: string): string {
+  if (key.startsWith(REPLAY_PREFIX)) {
+    const name = key.slice(REPLAY_PREFIX.length);
+    if (KEY_RE.test(name)) return key;
+    return REPLAY_PREFIX + deriveKeyStandalone({ explicitKey: name });
+  }
+  if (KEY_RE.test(key)) return key;
+  return deriveKeyStandalone({ explicitKey: key });
+}
+
 //#endregion
 
 //#region Index helpers (golden-index.json — manifest for offline listing only)
@@ -260,7 +270,8 @@ export function createGoldenCache(rootDir?: string): GoldenCache {
 
   const cache: GoldenCache = {
     async get(key) {
-      const loc = resolveKeyLocation(root, key);
+      const effectiveKey = normalizeCacheKey(key);
+      const loc = resolveKeyLocation(root, effectiveKey);
       if (!loc) return null;
       const path = pathMod!.join(loc.dir, `${loc.name}.json`);
       try {
@@ -287,7 +298,8 @@ export function createGoldenCache(rootDir?: string): GoldenCache {
     },
 
     async put(key, value, meta) {
-      const loc = resolveKeyLocation(root, key);
+      const effectiveKey = normalizeCacheKey(key);
+      const loc = resolveKeyLocation(root, effectiveKey);
       if (!loc) return;
       let payload: string;
       try {
@@ -305,7 +317,7 @@ export function createGoldenCache(rootDir?: string): GoldenCache {
       }
       // Manifest update is best-effort — reads never depend on it.
       const index = readIndex(root) ?? scanIndex(root);
-      index.entries[key] = {
+      index.entries[effectiveKey] = {
         created_at: new Date().toISOString(),
         provider: typeof meta?.provider === "string" && meta.provider.length > 0 ? meta.provider : null,
         model: typeof meta?.model === "string" && meta.model.length > 0 ? meta.model : null,
@@ -317,7 +329,8 @@ export function createGoldenCache(rootDir?: string): GoldenCache {
     },
 
     async has(key) {
-      const loc = resolveKeyLocation(root, key);
+      const effectiveKey = normalizeCacheKey(key);
+      const loc = resolveKeyLocation(root, effectiveKey);
       if (!loc) return false;
       try {
         return fsMod!.existsSync(pathMod!.join(loc.dir, `${loc.name}.json`));
@@ -328,7 +341,8 @@ export function createGoldenCache(rootDir?: string): GoldenCache {
     },
 
     async delete(key) {
-      const loc = resolveKeyLocation(root, key);
+      const effectiveKey = normalizeCacheKey(key);
+      const loc = resolveKeyLocation(root, effectiveKey);
       if (!loc) return false;
       const path = pathMod!.join(loc.dir, `${loc.name}.json`);
       let existed = false;
@@ -341,8 +355,8 @@ export function createGoldenCache(rootDir?: string): GoldenCache {
       }
       try {
         const index = readIndex(root);
-        if (index && key in index.entries) {
-          delete index.entries[key];
+        if (index && effectiveKey in index.entries) {
+          delete index.entries[effectiveKey];
           writeIndex(root, index);
         }
       } catch {

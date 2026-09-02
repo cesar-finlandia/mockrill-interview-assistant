@@ -1,0 +1,3876 @@
+{
+  "turns": [
+    {
+      "turn_order": 0,
+      "transcript": "When our production checkout service started returning 500 errors on Black Friday I was on call at two in the morning. I needed to coordinate with the payments team and the infrastructure team while keeping customer support informed. I built a quick dashboard using Datadog metrics and traced the issue to a database connection leak introduced in the previous deploy. I wrote a rollback plan and decided to revert the migration then led the fix with a connection pool limit of fifty and added retry logic. The outcome was we restored service in twenty minutes, reduced error rate from twelve percent to zero, and shipped a postmortem that increased our on-call readiness. The project taught me to prioritize clear communication under pressure and to document decisions for future incidents.",
+      "formatted": true,
+      "end_of_turn": true,
+      "end_of_turn_confidence": 0.92,
+      "words": [
+        {
+          "text": "When",
+          "start": 5000,
+          "end": 5250,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "our",
+          "start": 5350,
+          "end": 5600,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "production",
+          "start": 5700,
+          "end": 5950,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "checkout",
+          "start": 6050,
+          "end": 6300,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "service",
+          "start": 6400,
+          "end": 6650,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "started",
+          "start": 6750,
+          "end": 7000,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "returning",
+          "start": 7100,
+          "end": 7350,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "500",
+          "start": 7450,
+          "end": 7700,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "errors",
+          "start": 7800,
+          "end": 8050,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "on",
+          "start": 8150,
+          "end": 8400,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "Black",
+          "start": 8500,
+          "end": 8750,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "Friday",
+          "start": 8850,
+          "end": 9100,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "I",
+          "start": 9200,
+          "end": 9450,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "was",
+          "start": 9550,
+          "end": 9800,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "on",
+          "start": 9900,
+          "end": 10150,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "call",
+          "start": 10250,
+          "end": 10500,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "at",
+          "start": 10600,
+          "end": 10850,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "two",
+          "start": 10950,
+          "end": 11200,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "in",
+          "start": 11300,
+          "end": 11550,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "the",
+          "start": 11650,
+          "end": 11900,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "morning.",
+          "start": 12000,
+          "end": 12250,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "I",
+          "start": 12350,
+          "end": 12600,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "needed",
+          "start": 12700,
+          "end": 12950,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "to",
+          "start": 13050,
+          "end": 13300,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "coordinate",
+          "start": 13400,
+          "end": 13650,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "with",
+          "start": 13750,
+          "end": 14000,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "the",
+          "start": 14100,
+          "end": 14350,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "payments",
+          "start": 14450,
+          "end": 14700,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "team",
+          "start": 14800,
+          "end": 15050,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 15150,
+          "end": 15400,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "the",
+          "start": 15500,
+          "end": 15750,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "infrastructure",
+          "start": 15850,
+          "end": 16100,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "team",
+          "start": 16200,
+          "end": 16450,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "while",
+          "start": 16550,
+          "end": 16800,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "keeping",
+          "start": 16900,
+          "end": 17150,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "customer",
+          "start": 17250,
+          "end": 17500,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "support",
+          "start": 17600,
+          "end": 17850,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "informed.",
+          "start": 17950,
+          "end": 18200,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "I",
+          "start": 18300,
+          "end": 18550,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "built",
+          "start": 18650,
+          "end": 18900,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "a",
+          "start": 19000,
+          "end": 19250,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "quick",
+          "start": 19350,
+          "end": 19600,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "dashboard",
+          "start": 19700,
+          "end": 19950,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "using",
+          "start": 20050,
+          "end": 20300,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "Datadog",
+          "start": 20400,
+          "end": 20650,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "metrics",
+          "start": 20750,
+          "end": 21000,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 21100,
+          "end": 21350,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "traced",
+          "start": 21450,
+          "end": 21700,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "the",
+          "start": 21800,
+          "end": 22050,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "issue",
+          "start": 22150,
+          "end": 22400,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "to",
+          "start": 22500,
+          "end": 22750,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "a",
+          "start": 22850,
+          "end": 23100,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "database",
+          "start": 23200,
+          "end": 23450,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "connection",
+          "start": 23550,
+          "end": 23800,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "leak",
+          "start": 23900,
+          "end": 24150,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "introduced",
+          "start": 24250,
+          "end": 24500,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "in",
+          "start": 24600,
+          "end": 24850,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "the",
+          "start": 24950,
+          "end": 25200,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "previous",
+          "start": 25300,
+          "end": 25550,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "deploy.",
+          "start": 25650,
+          "end": 25900,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "I",
+          "start": 26000,
+          "end": 26250,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "wrote",
+          "start": 26350,
+          "end": 26600,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "a",
+          "start": 26700,
+          "end": 26950,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "rollback",
+          "start": 27050,
+          "end": 27300,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "plan",
+          "start": 27400,
+          "end": 27650,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 27750,
+          "end": 28000,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "decided",
+          "start": 28100,
+          "end": 28350,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "to",
+          "start": 28450,
+          "end": 28700,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "revert",
+          "start": 28800,
+          "end": 29050,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "the",
+          "start": 29150,
+          "end": 29400,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "migration",
+          "start": 29500,
+          "end": 29750,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "then",
+          "start": 29850,
+          "end": 30100,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "led",
+          "start": 30200,
+          "end": 30450,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "the",
+          "start": 30550,
+          "end": 30800,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "fix",
+          "start": 30900,
+          "end": 31150,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "with",
+          "start": 31250,
+          "end": 31500,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "a",
+          "start": 31600,
+          "end": 31850,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "connection",
+          "start": 31950,
+          "end": 32200,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "pool",
+          "start": 32300,
+          "end": 32550,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "limit",
+          "start": 32650,
+          "end": 32900,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "of",
+          "start": 33000,
+          "end": 33250,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "fifty",
+          "start": 33350,
+          "end": 33600,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 33700,
+          "end": 33950,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "added",
+          "start": 34050,
+          "end": 34300,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "retry",
+          "start": 34400,
+          "end": 34650,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "logic.",
+          "start": 34750,
+          "end": 35000,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "The",
+          "start": 35100,
+          "end": 35350,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "outcome",
+          "start": 35450,
+          "end": 35700,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "was",
+          "start": 35800,
+          "end": 36050,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "we",
+          "start": 36150,
+          "end": 36400,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "restored",
+          "start": 36500,
+          "end": 36750,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "service",
+          "start": 36850,
+          "end": 37100,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "in",
+          "start": 37200,
+          "end": 37450,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "twenty",
+          "start": 37550,
+          "end": 37800,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "minutes,",
+          "start": 37900,
+          "end": 38150,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "reduced",
+          "start": 38250,
+          "end": 38500,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "error",
+          "start": 38600,
+          "end": 38850,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "rate",
+          "start": 38950,
+          "end": 39200,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "from",
+          "start": 39300,
+          "end": 39550,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "twelve",
+          "start": 39650,
+          "end": 39900,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "percent",
+          "start": 40000,
+          "end": 40250,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "to",
+          "start": 40350,
+          "end": 40600,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "zero,",
+          "start": 40700,
+          "end": 40950,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 41050,
+          "end": 41300,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "shipped",
+          "start": 41400,
+          "end": 41650,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "a",
+          "start": 41750,
+          "end": 42000,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "postmortem",
+          "start": 42100,
+          "end": 42350,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "that",
+          "start": 42450,
+          "end": 42700,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "increased",
+          "start": 42800,
+          "end": 43050,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "our",
+          "start": 43150,
+          "end": 43400,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "on-call",
+          "start": 43500,
+          "end": 43750,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "readiness.",
+          "start": 43850,
+          "end": 44100,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "The",
+          "start": 44200,
+          "end": 44450,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "project",
+          "start": 44550,
+          "end": 44800,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "taught",
+          "start": 44900,
+          "end": 45150,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "me",
+          "start": 45250,
+          "end": 45500,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "to",
+          "start": 45600,
+          "end": 45850,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "prioritize",
+          "start": 45950,
+          "end": 46200,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "clear",
+          "start": 46300,
+          "end": 46550,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "communication",
+          "start": 46650,
+          "end": 46900,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "under",
+          "start": 47000,
+          "end": 47250,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "pressure",
+          "start": 47350,
+          "end": 47600,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 47700,
+          "end": 47950,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "to",
+          "start": 48050,
+          "end": 48300,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "document",
+          "start": 48400,
+          "end": 48650,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "decisions",
+          "start": 48750,
+          "end": 49000,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "for",
+          "start": 49100,
+          "end": 49350,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "future",
+          "start": 49450,
+          "end": 49700,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "incidents.",
+          "start": 49800,
+          "end": 50050,
+          "confidence": 0.9600000000000001,
+          "word_is_final": true
+        }
+      ],
+      "speaker": "candidate",
+      "received_at": "2026-09-02T01:02:29.834Z"
+    },
+    {
+      "turn_order": 1,
+      "transcript": "For a high traffic API serving millions of requests per day I would design a two tier caching layer with Redis for hot keys and CDN edge cache for static responses. The cache invalidation strategy would use time to live of sixty seconds for volatile data and explicit purge on write for critical entities. I would handle cache stampede with request coalescing and a background refresh using a lock with five second timeout so only one worker rebuilds the entry. This approach reduced p95 latency from three hundred milliseconds to forty milliseconds in my previous role at FintechCorp while we shipped the new checkout flow for fifty thousand daily users. I also added observability with hit ratio metrics and alerts when the ratio drops below eighty percent to ensure reliability.",
+      "formatted": true,
+      "end_of_turn": true,
+      "end_of_turn_confidence": 0.92,
+      "words": [
+        {
+          "text": "For",
+          "start": 125000,
+          "end": 125250,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "a",
+          "start": 125350,
+          "end": 125600,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "high",
+          "start": 125700,
+          "end": 125950,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "traffic",
+          "start": 126050,
+          "end": 126300,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "API",
+          "start": 126400,
+          "end": 126650,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "serving",
+          "start": 126750,
+          "end": 127000,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "millions",
+          "start": 127100,
+          "end": 127350,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "of",
+          "start": 127450,
+          "end": 127700,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "requests",
+          "start": 127800,
+          "end": 128050,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "per",
+          "start": 128150,
+          "end": 128400,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "day",
+          "start": 128500,
+          "end": 128750,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "I",
+          "start": 128850,
+          "end": 129100,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "would",
+          "start": 129200,
+          "end": 129450,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "design",
+          "start": 129550,
+          "end": 129800,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "a",
+          "start": 129900,
+          "end": 130150,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "two",
+          "start": 130250,
+          "end": 130500,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "tier",
+          "start": 130600,
+          "end": 130850,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "caching",
+          "start": 130950,
+          "end": 131200,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "layer",
+          "start": 131300,
+          "end": 131550,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "with",
+          "start": 131650,
+          "end": 131900,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "Redis",
+          "start": 132000,
+          "end": 132250,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "for",
+          "start": 132350,
+          "end": 132600,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "hot",
+          "start": 132700,
+          "end": 132950,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "keys",
+          "start": 133050,
+          "end": 133300,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 133400,
+          "end": 133650,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "CDN",
+          "start": 133750,
+          "end": 134000,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "edge",
+          "start": 134100,
+          "end": 134350,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "cache",
+          "start": 134450,
+          "end": 134700,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "for",
+          "start": 134800,
+          "end": 135050,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "static",
+          "start": 135150,
+          "end": 135400,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "responses.",
+          "start": 135500,
+          "end": 135750,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "The",
+          "start": 135850,
+          "end": 136100,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "cache",
+          "start": 136200,
+          "end": 136450,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "invalidation",
+          "start": 136550,
+          "end": 136800,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "strategy",
+          "start": 136900,
+          "end": 137150,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "would",
+          "start": 137250,
+          "end": 137500,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "use",
+          "start": 137600,
+          "end": 137850,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "time",
+          "start": 137950,
+          "end": 138200,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "to",
+          "start": 138300,
+          "end": 138550,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "live",
+          "start": 138650,
+          "end": 138900,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "of",
+          "start": 139000,
+          "end": 139250,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "sixty",
+          "start": 139350,
+          "end": 139600,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "seconds",
+          "start": 139700,
+          "end": 139950,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "for",
+          "start": 140050,
+          "end": 140300,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "volatile",
+          "start": 140400,
+          "end": 140650,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "data",
+          "start": 140750,
+          "end": 141000,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 141100,
+          "end": 141350,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "explicit",
+          "start": 141450,
+          "end": 141700,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "purge",
+          "start": 141800,
+          "end": 142050,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "on",
+          "start": 142150,
+          "end": 142400,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "write",
+          "start": 142500,
+          "end": 142750,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "for",
+          "start": 142850,
+          "end": 143100,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "critical",
+          "start": 143200,
+          "end": 143450,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "entities.",
+          "start": 143550,
+          "end": 143800,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "I",
+          "start": 145500,
+          "end": 145750,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "would",
+          "start": 145850,
+          "end": 146100,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "handle",
+          "start": 146200,
+          "end": 146450,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "cache",
+          "start": 146550,
+          "end": 146800,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "stampede",
+          "start": 146900,
+          "end": 147150,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "with",
+          "start": 147250,
+          "end": 147500,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "request",
+          "start": 147600,
+          "end": 147850,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "coalescing",
+          "start": 147950,
+          "end": 148200,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 148300,
+          "end": 148550,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "a",
+          "start": 148650,
+          "end": 148900,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "background",
+          "start": 149000,
+          "end": 149250,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "refresh",
+          "start": 149350,
+          "end": 149600,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "using",
+          "start": 149700,
+          "end": 149950,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "a",
+          "start": 150050,
+          "end": 150300,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "lock",
+          "start": 150400,
+          "end": 150650,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "with",
+          "start": 150750,
+          "end": 151000,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "five",
+          "start": 151100,
+          "end": 151350,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "second",
+          "start": 151450,
+          "end": 151700,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "timeout",
+          "start": 151800,
+          "end": 152050,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "so",
+          "start": 152150,
+          "end": 152400,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "only",
+          "start": 152500,
+          "end": 152750,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "one",
+          "start": 152850,
+          "end": 153100,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "worker",
+          "start": 153200,
+          "end": 153450,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "rebuilds",
+          "start": 153550,
+          "end": 153800,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "the",
+          "start": 153900,
+          "end": 154150,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "entry.",
+          "start": 154250,
+          "end": 154500,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "This",
+          "start": 154600,
+          "end": 154850,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "approach",
+          "start": 154950,
+          "end": 155200,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "reduced",
+          "start": 155300,
+          "end": 155550,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "p95",
+          "start": 155650,
+          "end": 155900,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "latency",
+          "start": 156000,
+          "end": 156250,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "from",
+          "start": 156350,
+          "end": 156600,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "three",
+          "start": 156700,
+          "end": 156950,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "hundred",
+          "start": 157050,
+          "end": 157300,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "milliseconds",
+          "start": 157400,
+          "end": 157650,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "to",
+          "start": 157750,
+          "end": 158000,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "forty",
+          "start": 158100,
+          "end": 158350,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "milliseconds",
+          "start": 158450,
+          "end": 158700,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "in",
+          "start": 158800,
+          "end": 159050,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "my",
+          "start": 159150,
+          "end": 159400,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "previous",
+          "start": 159500,
+          "end": 159750,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "role",
+          "start": 159850,
+          "end": 160100,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "at",
+          "start": 160200,
+          "end": 160450,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "FintechCorp",
+          "start": 160550,
+          "end": 160800,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "while",
+          "start": 160900,
+          "end": 161150,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "we",
+          "start": 161250,
+          "end": 161500,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "shipped",
+          "start": 161600,
+          "end": 161850,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "the",
+          "start": 161950,
+          "end": 162200,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "new",
+          "start": 162300,
+          "end": 162550,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "checkout",
+          "start": 162650,
+          "end": 162900,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "flow",
+          "start": 163000,
+          "end": 163250,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "for",
+          "start": 163350,
+          "end": 163600,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "fifty",
+          "start": 163700,
+          "end": 163950,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "thousand",
+          "start": 164050,
+          "end": 164300,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "daily",
+          "start": 164400,
+          "end": 164650,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "users.",
+          "start": 164750,
+          "end": 165000,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "I",
+          "start": 165100,
+          "end": 165350,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "also",
+          "start": 165450,
+          "end": 165700,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "added",
+          "start": 165800,
+          "end": 166050,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "observability",
+          "start": 166150,
+          "end": 166400,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "with",
+          "start": 166500,
+          "end": 166750,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "hit",
+          "start": 166850,
+          "end": 167100,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "ratio",
+          "start": 167200,
+          "end": 167450,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "metrics",
+          "start": 167550,
+          "end": 167800,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 167900,
+          "end": 168150,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "alerts",
+          "start": 168250,
+          "end": 168500,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "when",
+          "start": 168600,
+          "end": 168850,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "the",
+          "start": 168950,
+          "end": 169200,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "ratio",
+          "start": 169300,
+          "end": 169550,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "drops",
+          "start": 169650,
+          "end": 169900,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "below",
+          "start": 170000,
+          "end": 170250,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "eighty",
+          "start": 170350,
+          "end": 170600,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "percent",
+          "start": 170700,
+          "end": 170950,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "to",
+          "start": 171050,
+          "end": 171300,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "ensure",
+          "start": 171400,
+          "end": 171650,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "reliability.",
+          "start": 171750,
+          "end": 172000,
+          "confidence": 0.92,
+          "word_is_final": true
+        }
+      ],
+      "speaker": "candidate",
+      "received_at": "2026-09-02T01:03:29.835Z"
+    },
+    {
+      "turn_order": 2,
+      "transcript": "During the last quarter I struggled to give feedback to a junior teammate who missed two deadlines recently It was kind of kind of kind of my fault to address directly. I scheduled a private one on one and prepared specific examples with dates and impact on the release timeline of three sprints. I used nonviolent communication and asked for their perspective then we agreed on a plan with daily standup updates and a mentoring session each Friday. The outcome was they improved delivery by forty percent and we shipped the feature on time which increased team trust and reduced rework by fifteen percent after that.",
+      "formatted": true,
+      "end_of_turn": true,
+      "end_of_turn_confidence": 0.92,
+      "words": [
+        {
+          "text": "During",
+          "start": 455000,
+          "end": 455250,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "the",
+          "start": 455350,
+          "end": 455600,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "last",
+          "start": 455700,
+          "end": 455950,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "quarter",
+          "start": 456050,
+          "end": 456300,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "I",
+          "start": 456400,
+          "end": 456650,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "struggled",
+          "start": 456750,
+          "end": 457000,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "to",
+          "start": 457100,
+          "end": 457350,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "give",
+          "start": 457450,
+          "end": 457700,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "feedback",
+          "start": 457800,
+          "end": 458050,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "to",
+          "start": 458150,
+          "end": 458400,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "a",
+          "start": 458500,
+          "end": 458750,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "junior",
+          "start": 458850,
+          "end": 459100,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "teammate",
+          "start": 459200,
+          "end": 459450,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "who",
+          "start": 459550,
+          "end": 459800,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "missed",
+          "start": 459900,
+          "end": 460150,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "two",
+          "start": 460250,
+          "end": 460500,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "deadlines",
+          "start": 460600,
+          "end": 460850,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "recently",
+          "start": 460950,
+          "end": 461200,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "It",
+          "start": 461300,
+          "end": 461550,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "was",
+          "start": 461650,
+          "end": 461900,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "kind",
+          "start": 462000,
+          "end": 462250,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "of",
+          "start": 462350,
+          "end": 462600,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "kind",
+          "start": 462700,
+          "end": 462950,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "of",
+          "start": 463050,
+          "end": 463300,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "kind",
+          "start": 463400,
+          "end": 463650,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "of",
+          "start": 463750,
+          "end": 464000,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "my",
+          "start": 464100,
+          "end": 464350,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "fault",
+          "start": 464450,
+          "end": 464700,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "to",
+          "start": 464800,
+          "end": 465050,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "address",
+          "start": 465150,
+          "end": 465400,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "directly.",
+          "start": 465500,
+          "end": 465750,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "I",
+          "start": 465850,
+          "end": 466100,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "scheduled",
+          "start": 466200,
+          "end": 466450,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "a",
+          "start": 466550,
+          "end": 466800,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "private",
+          "start": 466900,
+          "end": 467150,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "one",
+          "start": 467250,
+          "end": 467500,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "on",
+          "start": 467600,
+          "end": 467850,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "one",
+          "start": 467950,
+          "end": 468200,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 468300,
+          "end": 468550,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "prepared",
+          "start": 468650,
+          "end": 468900,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "specific",
+          "start": 469000,
+          "end": 469250,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "examples",
+          "start": 469350,
+          "end": 469600,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "with",
+          "start": 469700,
+          "end": 469950,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "dates",
+          "start": 470050,
+          "end": 470300,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 470400,
+          "end": 470650,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "impact",
+          "start": 470750,
+          "end": 471000,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "on",
+          "start": 471100,
+          "end": 471350,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "the",
+          "start": 471450,
+          "end": 471700,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "release",
+          "start": 471800,
+          "end": 472050,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "timeline",
+          "start": 472150,
+          "end": 472400,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "of",
+          "start": 472500,
+          "end": 472750,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "three",
+          "start": 472850,
+          "end": 473100,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "sprints.",
+          "start": 473200,
+          "end": 473450,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "I",
+          "start": 473550,
+          "end": 473800,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "used",
+          "start": 473900,
+          "end": 474150,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "nonviolent",
+          "start": 474250,
+          "end": 474500,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "communication",
+          "start": 474600,
+          "end": 474850,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 474950,
+          "end": 475200,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "asked",
+          "start": 475300,
+          "end": 475550,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "for",
+          "start": 475650,
+          "end": 475900,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "their",
+          "start": 476000,
+          "end": 476250,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "perspective",
+          "start": 476350,
+          "end": 476600,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "then",
+          "start": 476700,
+          "end": 476950,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "we",
+          "start": 477050,
+          "end": 477300,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "agreed",
+          "start": 477400,
+          "end": 477650,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "on",
+          "start": 477750,
+          "end": 478000,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "a",
+          "start": 478100,
+          "end": 478350,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "plan",
+          "start": 478450,
+          "end": 478700,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "with",
+          "start": 478800,
+          "end": 479050,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "daily",
+          "start": 479150,
+          "end": 479400,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "standup",
+          "start": 479500,
+          "end": 479750,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "updates",
+          "start": 479850,
+          "end": 480100,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 480200,
+          "end": 480450,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "a",
+          "start": 480550,
+          "end": 480800,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "mentoring",
+          "start": 480900,
+          "end": 481150,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "session",
+          "start": 481250,
+          "end": 481500,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "each",
+          "start": 481600,
+          "end": 481850,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "Friday.",
+          "start": 481950,
+          "end": 482200,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "The",
+          "start": 482300,
+          "end": 482550,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "outcome",
+          "start": 482650,
+          "end": 482900,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "was",
+          "start": 483000,
+          "end": 483250,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "they",
+          "start": 483350,
+          "end": 483600,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "improved",
+          "start": 483700,
+          "end": 483950,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "delivery",
+          "start": 484050,
+          "end": 484300,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "by",
+          "start": 484400,
+          "end": 484650,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "forty",
+          "start": 484750,
+          "end": 485000,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "percent",
+          "start": 485100,
+          "end": 485350,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 485450,
+          "end": 485700,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "we",
+          "start": 485800,
+          "end": 486050,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "shipped",
+          "start": 486150,
+          "end": 486400,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "the",
+          "start": 486500,
+          "end": 486750,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "feature",
+          "start": 486850,
+          "end": 487100,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "on",
+          "start": 487200,
+          "end": 487450,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "time",
+          "start": 487550,
+          "end": 487800,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "which",
+          "start": 487900,
+          "end": 488150,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "increased",
+          "start": 488250,
+          "end": 488500,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "team",
+          "start": 488600,
+          "end": 488850,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "trust",
+          "start": 488950,
+          "end": 489200,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 489300,
+          "end": 489550,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "reduced",
+          "start": 489650,
+          "end": 489900,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "rework",
+          "start": 490000,
+          "end": 490250,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "by",
+          "start": 490350,
+          "end": 490600,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "fifteen",
+          "start": 490700,
+          "end": 490950,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "percent",
+          "start": 491050,
+          "end": 491300,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "after",
+          "start": 491400,
+          "end": 491650,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "that.",
+          "start": 491750,
+          "end": 492000,
+          "confidence": 0.92,
+          "word_is_final": true
+        }
+      ],
+      "speaker": "candidate",
+      "received_at": "2026-09-02T01:04:29.835Z"
+    },
+    {
+      "turn_order": 3,
+      "transcript": "Our orders search query was timing out after thirty seconds during peak traffic and affecting checkout conversion by eight percent. I examined the explain plan in Postgres and found a sequential scan on the orders table with two million rows because the composite index on customer_id and created_at was missing. I built a new index with include columns and rewrote the query to avoid select star and added pagination with limit fifty and keyset on id. I also added Redis caching for the frequent filter with sixty second ttl and coalesced requests. The result was p95 dropped from twenty seconds to one hundred twenty milliseconds, increased throughput from one hundred to eight hundred requests per second and reduced database CPU from ninety to thirty percent.",
+      "formatted": true,
+      "end_of_turn": true,
+      "end_of_turn_confidence": 0.92,
+      "words": [
+        {
+          "text": "Our",
+          "start": 530000,
+          "end": 530250,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "orders",
+          "start": 530350,
+          "end": 530600,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "search",
+          "start": 530700,
+          "end": 530950,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "query",
+          "start": 531050,
+          "end": 531300,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "was",
+          "start": 531400,
+          "end": 531650,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "timing",
+          "start": 531750,
+          "end": 532000,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "out",
+          "start": 532100,
+          "end": 532350,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "after",
+          "start": 532450,
+          "end": 532700,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "thirty",
+          "start": 532800,
+          "end": 533050,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "seconds",
+          "start": 533150,
+          "end": 533400,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "during",
+          "start": 533500,
+          "end": 533750,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "peak",
+          "start": 533850,
+          "end": 534100,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "traffic",
+          "start": 534200,
+          "end": 534450,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 534550,
+          "end": 534800,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "affecting",
+          "start": 534900,
+          "end": 535150,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "checkout",
+          "start": 535250,
+          "end": 535500,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "conversion",
+          "start": 535600,
+          "end": 535850,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "by",
+          "start": 535950,
+          "end": 536200,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "eight",
+          "start": 536300,
+          "end": 536550,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "percent.",
+          "start": 536650,
+          "end": 536900,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "I",
+          "start": 537000,
+          "end": 537250,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "examined",
+          "start": 537350,
+          "end": 537600,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "the",
+          "start": 537700,
+          "end": 537950,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "explain",
+          "start": 538050,
+          "end": 538300,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "plan",
+          "start": 538400,
+          "end": 538650,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "in",
+          "start": 538750,
+          "end": 539000,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "Postgres",
+          "start": 539100,
+          "end": 539350,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 539450,
+          "end": 539700,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "found",
+          "start": 539800,
+          "end": 540050,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "a",
+          "start": 540150,
+          "end": 540400,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "sequential",
+          "start": 540500,
+          "end": 540750,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "scan",
+          "start": 540850,
+          "end": 541100,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "on",
+          "start": 541200,
+          "end": 541450,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "the",
+          "start": 541550,
+          "end": 541800,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "orders",
+          "start": 541900,
+          "end": 542150,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "table",
+          "start": 542250,
+          "end": 542500,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "with",
+          "start": 542600,
+          "end": 542850,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "two",
+          "start": 542950,
+          "end": 543200,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "million",
+          "start": 543300,
+          "end": 543550,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "rows",
+          "start": 543650,
+          "end": 543900,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "because",
+          "start": 544000,
+          "end": 544250,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "the",
+          "start": 544350,
+          "end": 544600,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "composite",
+          "start": 544700,
+          "end": 544950,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "index",
+          "start": 545050,
+          "end": 545300,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "on",
+          "start": 545400,
+          "end": 545650,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "customer_id",
+          "start": 545750,
+          "end": 546000,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 546100,
+          "end": 546350,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "created_at",
+          "start": 546450,
+          "end": 546700,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "was",
+          "start": 546800,
+          "end": 547050,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "missing.",
+          "start": 547150,
+          "end": 547400,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "I",
+          "start": 547500,
+          "end": 547750,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "built",
+          "start": 547850,
+          "end": 548100,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "a",
+          "start": 548200,
+          "end": 548450,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "new",
+          "start": 548550,
+          "end": 548800,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "index",
+          "start": 548900,
+          "end": 549150,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "with",
+          "start": 549250,
+          "end": 549500,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "include",
+          "start": 549600,
+          "end": 549850,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "columns",
+          "start": 549950,
+          "end": 550200,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 550300,
+          "end": 550550,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "rewrote",
+          "start": 550650,
+          "end": 550900,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "the",
+          "start": 551000,
+          "end": 551250,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "query",
+          "start": 551350,
+          "end": 551600,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "to",
+          "start": 551700,
+          "end": 551950,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "avoid",
+          "start": 552050,
+          "end": 552300,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "select",
+          "start": 552400,
+          "end": 552650,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "star",
+          "start": 552750,
+          "end": 553000,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 553100,
+          "end": 553350,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "added",
+          "start": 553450,
+          "end": 553700,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "pagination",
+          "start": 553800,
+          "end": 554050,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "with",
+          "start": 554150,
+          "end": 554400,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "limit",
+          "start": 554500,
+          "end": 554750,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "fifty",
+          "start": 554850,
+          "end": 555100,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 555200,
+          "end": 555450,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "keyset",
+          "start": 555550,
+          "end": 555800,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "on",
+          "start": 555900,
+          "end": 556150,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "id.",
+          "start": 556250,
+          "end": 556500,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "I",
+          "start": 556600,
+          "end": 556850,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "also",
+          "start": 556950,
+          "end": 557200,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "added",
+          "start": 557300,
+          "end": 557550,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "Redis",
+          "start": 557650,
+          "end": 557900,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "caching",
+          "start": 558000,
+          "end": 558250,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "for",
+          "start": 558350,
+          "end": 558600,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "the",
+          "start": 558700,
+          "end": 558950,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "frequent",
+          "start": 559050,
+          "end": 559300,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "filter",
+          "start": 559400,
+          "end": 559650,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "with",
+          "start": 559750,
+          "end": 560000,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "sixty",
+          "start": 560100,
+          "end": 560350,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "second",
+          "start": 560450,
+          "end": 560700,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "ttl",
+          "start": 560800,
+          "end": 561050,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 561150,
+          "end": 561400,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "coalesced",
+          "start": 561500,
+          "end": 561750,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "requests.",
+          "start": 561850,
+          "end": 562100,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "The",
+          "start": 562200,
+          "end": 562450,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "result",
+          "start": 562550,
+          "end": 562800,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "was",
+          "start": 562900,
+          "end": 563150,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "p95",
+          "start": 563250,
+          "end": 563500,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "dropped",
+          "start": 563600,
+          "end": 563850,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "from",
+          "start": 563950,
+          "end": 564200,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "twenty",
+          "start": 564300,
+          "end": 564550,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "seconds",
+          "start": 564650,
+          "end": 564900,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "to",
+          "start": 565000,
+          "end": 565250,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "one",
+          "start": 565350,
+          "end": 565600,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "hundred",
+          "start": 565700,
+          "end": 565950,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "twenty",
+          "start": 566050,
+          "end": 566300,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "milliseconds,",
+          "start": 566400,
+          "end": 566650,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "increased",
+          "start": 566750,
+          "end": 567000,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "throughput",
+          "start": 567100,
+          "end": 567350,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "from",
+          "start": 567450,
+          "end": 567700,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "one",
+          "start": 567800,
+          "end": 568050,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "hundred",
+          "start": 568150,
+          "end": 568400,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "to",
+          "start": 568500,
+          "end": 568750,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "eight",
+          "start": 568850,
+          "end": 569100,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "hundred",
+          "start": 569200,
+          "end": 569450,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "requests",
+          "start": 569550,
+          "end": 569800,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "per",
+          "start": 569900,
+          "end": 570150,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "second",
+          "start": 570250,
+          "end": 570500,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "and",
+          "start": 570600,
+          "end": 570850,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "reduced",
+          "start": 570950,
+          "end": 571200,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "database",
+          "start": 571300,
+          "end": 571550,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "CPU",
+          "start": 571650,
+          "end": 571900,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "from",
+          "start": 572000,
+          "end": 572250,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "ninety",
+          "start": 572350,
+          "end": 572600,
+          "confidence": 0.9400000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "to",
+          "start": 572700,
+          "end": 572950,
+          "confidence": 0.9600000000000001,
+          "word_is_final": false
+        },
+        {
+          "text": "thirty",
+          "start": 573050,
+          "end": 573300,
+          "confidence": 0.92,
+          "word_is_final": false
+        },
+        {
+          "text": "percent.",
+          "start": 573400,
+          "end": 573650,
+          "confidence": 0.9400000000000001,
+          "word_is_final": true
+        }
+      ],
+      "speaker": "candidate",
+      "received_at": "2026-09-02T01:05:29.835Z"
+    }
+  ],
+  "actions": [
+    {
+      "say": "Tell me about a time you debugged a production incident under pressure and how you coordinated with the team.",
+      "question": {
+        "id": "q1",
+        "text": "Tell me about a time you debugged a production incident under pressure and how you coordinated with the team.",
+        "competency": "behavioral",
+        "difficulty": 1,
+        "follow_ups": [
+          "What would you do differently next time?"
+        ],
+        "keyterms": [
+          "debugged",
+          "production",
+          "incident"
+        ]
+      },
+      "score": null,
+      "done": false,
+      "degraded": false
+    },
+    {
+      "say": "Explain how you would design a caching layer for a high-traffic API and handle cache invalidation.",
+      "question": {
+        "id": "q2",
+        "text": "Explain how you would design a caching layer for a high-traffic API and handle cache invalidation.",
+        "competency": "technical",
+        "difficulty": 2,
+        "follow_ups": [
+          "How do you handle cache stampede?"
+        ],
+        "keyterms": [
+          "caching",
+          "cache invalidation",
+          "API"
+        ]
+      },
+      "score": {
+        "question_id": "q1",
+        "turn_order": 0,
+        "axes": {
+          "structure": 5,
+          "specificity": 4,
+          "clarity": 5,
+          "relevance": 4
+        },
+        "overall": 4.5,
+        "rationale": "Strongest in structure, weakest in specificity — focus on specificity next.",
+        "evidence": [
+          {
+            "kind": "quote",
+            "text": "When our production checkout service started returning 500 errors on Black Friday I was on call at two in the morning.",
+            "start_ms": 5000,
+            "end_ms": 50050,
+            "label": "00:05",
+            "note": "said: \"When our production checkout service started returning 500 errors on Black Friday I was on call at two in the morning.\""
+          },
+          {
+            "kind": "quote",
+            "text": "When",
+            "start_ms": 5000,
+            "end_ms": 5250,
+            "label": "00:05",
+            "note": "low confidence \"When\" here"
+          }
+        ],
+        "source": "deterministic"
+      },
+      "done": false,
+      "degraded": false
+    },
+    {
+      "say": "Describe a situation where you had to give difficult feedback to a teammate and how you approached it.",
+      "question": {
+        "id": "q3",
+        "text": "Describe a situation where you had to give difficult feedback to a teammate and how you approached it.",
+        "competency": "situational",
+        "difficulty": 2,
+        "follow_ups": [
+          "How did they respond?"
+        ],
+        "keyterms": [
+          "feedback",
+          "teammate",
+          "situation"
+        ]
+      },
+      "score": {
+        "question_id": "q2",
+        "turn_order": 1,
+        "axes": {
+          "structure": 3,
+          "specificity": 3,
+          "clarity": 5,
+          "relevance": 5
+        },
+        "overall": 4,
+        "rationale": "Strongest in clarity, weakest in structure — focus on structure next.",
+        "evidence": [
+          {
+            "kind": "pause",
+            "text": "on write for critical entities. I would handle cache stampede",
+            "start_ms": 143800,
+            "end_ms": 145500,
+            "label": "02:23",
+            "note": "paused 1.7s here"
+          },
+          {
+            "kind": "quote",
+            "text": "For a high traffic API serving millions of requests per day I would design a two tier caching layer with Redis for hot keys and CDN edge cache for static responses.",
+            "start_ms": 125000,
+            "end_ms": 172000,
+            "label": "02:05",
+            "note": "said: \"For a high traffic API serving millions of requests per day I would design a two tier caching layer with Redis for hot keys and CDN edge cache for static responses.\""
+          },
+          {
+            "kind": "quote",
+            "text": "For",
+            "start_ms": 125000,
+            "end_ms": 125250,
+            "label": "02:05",
+            "note": "low confidence \"For\" here"
+          }
+        ],
+        "source": "deterministic"
+      },
+      "done": false,
+      "degraded": false
+    },
+    {
+      "say": "Walk me through optimizing a slow database query that is causing timeouts in production.",
+      "question": {
+        "id": "q4",
+        "text": "Walk me through optimizing a slow database query that is causing timeouts in production.",
+        "competency": "technical",
+        "difficulty": 3,
+        "follow_ups": [
+          "Can you elaborate on that answer?",
+          "What indexing strategy would you choose?"
+        ],
+        "keyterms": [
+          "database",
+          "query",
+          "index",
+          "optimization"
+        ]
+      },
+      "score": {
+        "question_id": "q3",
+        "turn_order": 2,
+        "axes": {
+          "structure": 3,
+          "specificity": 3,
+          "clarity": 4,
+          "relevance": 4
+        },
+        "overall": 3.5,
+        "rationale": "Strongest in clarity, weakest in structure — focus on structure next.",
+        "evidence": [
+          {
+            "kind": "filler",
+            "text": "kind of",
+            "start_ms": 462000,
+            "end_ms": 462600,
+            "label": "07:42",
+            "note": "said \"kind of\" 3x here"
+          },
+          {
+            "kind": "quote",
+            "text": "During the last quarter I struggled to give feedback to a junior teammate who missed two deadlines recently It was kind of kind of kind of my fault to address directly.",
+            "start_ms": 455000,
+            "end_ms": 492000,
+            "label": "07:35",
+            "note": "said: \"During the last quarter I struggled to give feedback to a junior teammate who missed two deadlines recently It was kind of kind of kind of my fault to address directly.\""
+          },
+          {
+            "kind": "quote",
+            "text": "During",
+            "start_ms": 455000,
+            "end_ms": 455250,
+            "label": "07:35",
+            "note": "low confidence \"During\" here"
+          }
+        ],
+        "source": "deterministic"
+      },
+      "done": false,
+      "degraded": false
+    },
+    {
+      "say": "How did they respond?",
+      "question": {
+        "id": "q3",
+        "text": "Describe a situation where you had to give difficult feedback to a teammate and how you approached it.",
+        "competency": "situational",
+        "difficulty": 2,
+        "follow_ups": [
+          "How did they respond?"
+        ],
+        "keyterms": [
+          "feedback",
+          "teammate",
+          "situation"
+        ]
+      },
+      "score": {
+        "question_id": "q4",
+        "turn_order": 3,
+        "axes": {
+          "structure": 4,
+          "specificity": 4,
+          "clarity": 5,
+          "relevance": 4
+        },
+        "overall": 4.3,
+        "rationale": "Strongest in clarity, weakest in structure — focus on structure next.",
+        "evidence": [
+          {
+            "kind": "quote",
+            "text": "Our orders search query was timing out after thirty seconds during peak traffic and affecting checkout conversion by eight percent.",
+            "start_ms": 530000,
+            "end_ms": 573650,
+            "label": "08:50",
+            "note": "said: \"Our orders search query was timing out after thirty seconds during peak traffic and affecting checkout conversion by eight percent.\""
+          },
+          {
+            "kind": "quote",
+            "text": "Our",
+            "start_ms": 530000,
+            "end_ms": 530250,
+            "label": "08:50",
+            "note": "low confidence \"Our\" here"
+          }
+        ],
+        "source": "deterministic"
+      },
+      "done": false,
+      "degraded": false
+    }
+  ],
+  "scorecard": {
+    "session_id": "golden-session-01",
+    "created_at": "2026-09-02T01:05:29.839Z",
+    "duration_ms": 568650,
+    "per_question": [
+      {
+        "question_id": "q1",
+        "turn_order": 0,
+        "axes": {
+          "structure": 5,
+          "specificity": 4,
+          "clarity": 5,
+          "relevance": 4
+        },
+        "overall": 4.5,
+        "rationale": "Strongest in structure, weakest in specificity — focus on specificity next.",
+        "evidence": [
+          {
+            "kind": "quote",
+            "text": "When our production checkout service started returning 500 errors on Black Friday I was on call at two in the morning.",
+            "start_ms": 5000,
+            "end_ms": 50050,
+            "label": "00:05",
+            "note": "said: \"When our production checkout service started returning 500 errors on Black Friday I was on call at two in the morning.\""
+          },
+          {
+            "kind": "quote",
+            "text": "When",
+            "start_ms": 5000,
+            "end_ms": 5250,
+            "label": "00:05",
+            "note": "low confidence \"When\" here"
+          }
+        ],
+        "source": "deterministic"
+      },
+      {
+        "question_id": "q2",
+        "turn_order": 1,
+        "axes": {
+          "structure": 3,
+          "specificity": 3,
+          "clarity": 5,
+          "relevance": 5
+        },
+        "overall": 4,
+        "rationale": "Strongest in clarity, weakest in structure — focus on structure next.",
+        "evidence": [
+          {
+            "kind": "pause",
+            "text": "on write for critical entities. I would handle cache stampede",
+            "start_ms": 143800,
+            "end_ms": 145500,
+            "label": "02:23",
+            "note": "paused 1.7s here"
+          },
+          {
+            "kind": "quote",
+            "text": "For a high traffic API serving millions of requests per day I would design a two tier caching layer with Redis for hot keys and CDN edge cache for static responses.",
+            "start_ms": 125000,
+            "end_ms": 172000,
+            "label": "02:05",
+            "note": "said: \"For a high traffic API serving millions of requests per day I would design a two tier caching layer with Redis for hot keys and CDN edge cache for static responses.\""
+          },
+          {
+            "kind": "quote",
+            "text": "For",
+            "start_ms": 125000,
+            "end_ms": 125250,
+            "label": "02:05",
+            "note": "low confidence \"For\" here"
+          }
+        ],
+        "source": "deterministic"
+      },
+      {
+        "question_id": "q3",
+        "turn_order": 2,
+        "axes": {
+          "structure": 3,
+          "specificity": 3,
+          "clarity": 4,
+          "relevance": 4
+        },
+        "overall": 3.5,
+        "rationale": "Strongest in clarity, weakest in structure — focus on structure next.",
+        "evidence": [
+          {
+            "kind": "filler",
+            "text": "kind of",
+            "start_ms": 462000,
+            "end_ms": 462600,
+            "label": "07:42",
+            "note": "said \"kind of\" 3x here"
+          },
+          {
+            "kind": "quote",
+            "text": "During the last quarter I struggled to give feedback to a junior teammate who missed two deadlines recently It was kind of kind of kind of my fault to address directly.",
+            "start_ms": 455000,
+            "end_ms": 492000,
+            "label": "07:35",
+            "note": "said: \"During the last quarter I struggled to give feedback to a junior teammate who missed two deadlines recently It was kind of kind of kind of my fault to address directly.\""
+          },
+          {
+            "kind": "quote",
+            "text": "During",
+            "start_ms": 455000,
+            "end_ms": 455250,
+            "label": "07:35",
+            "note": "low confidence \"During\" here"
+          }
+        ],
+        "source": "deterministic"
+      },
+      {
+        "question_id": "q4",
+        "turn_order": 3,
+        "axes": {
+          "structure": 4,
+          "specificity": 4,
+          "clarity": 5,
+          "relevance": 4
+        },
+        "overall": 4.3,
+        "rationale": "Strongest in clarity, weakest in structure — focus on structure next.",
+        "evidence": [
+          {
+            "kind": "quote",
+            "text": "Our orders search query was timing out after thirty seconds during peak traffic and affecting checkout conversion by eight percent.",
+            "start_ms": 530000,
+            "end_ms": 573650,
+            "label": "08:50",
+            "note": "said: \"Our orders search query was timing out after thirty seconds during peak traffic and affecting checkout conversion by eight percent.\""
+          },
+          {
+            "kind": "quote",
+            "text": "Our",
+            "start_ms": 530000,
+            "end_ms": 530250,
+            "label": "08:50",
+            "note": "low confidence \"Our\" here"
+          }
+        ],
+        "source": "deterministic"
+      }
+    ],
+    "overall": 4.1,
+    "filler_total": 3,
+    "filler_top": [
+      {
+        "word": "kind of",
+        "start_ms": 462000,
+        "end_ms": 462600
+      }
+    ],
+    "weakest_question_id": "q3",
+    "degraded": false
+  }
+}
