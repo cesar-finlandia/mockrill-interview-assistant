@@ -1,0 +1,77 @@
+{
+  "$id": "https://chassis/contracts/demodrive-script.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DemodriveScript",
+  "description": "Click-sequence for demodrive capture — DP-PITCH §5 A8 normative JSON. Accepts both camelCase baseUrl and snake_case base_url for chassis compatibility. After normalization flat steps are converted to id/actions.",
+  "type": "object",
+  "required": ["version", "steps"],
+  "additionalProperties": true,
+  "properties": {
+    "version": { "type": "string", "const": "1.0.0" },
+    "baseUrl": { "type": "string" },
+    "base_url": { "type": "string" },
+    "viewport": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "width": { "type": "number" },
+        "height": { "type": "number" },
+        "device_scale_factor": { "type": "number" },
+        "deviceScaleFactor": { "type": "number" }
+      }
+    },
+    "video": { "type": "object", "additionalProperties": true },
+    "layout": { "type": "string" },
+    "theme": { "type": ["string", "null"] },
+    "data_source": { "type": "object", "additionalProperties": true },
+    "dataSource": { "type": "object", "additionalProperties": true },
+    "fullPage": { "type": "boolean" },
+    "full_page": { "type": "boolean" },
+    "fast": { "type": "boolean" },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "anyOf": [
+          {
+            "required": ["action"],
+            "properties": {
+              "action": { "type": "string" },
+              "selector": { "type": "string" },
+              "url": { "type": "string" },
+              "value": { "type": "string" },
+              "ms": { "type": "number" },
+              "timeout_ms": { "type": "number" },
+              "fullPage": { "type": "boolean" },
+              "note": { "type": "string" }
+            }
+          },
+          {
+            "required": ["id", "actions"],
+            "properties": {
+              "id": { "type": "string" },
+              "description": { "type": "string" },
+              "actions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["action"],
+                  "additionalProperties": true,
+                  "properties": {
+                    "action": { "type": "string" },
+                    "selector": { "type": ["string", "null"] },
+                    "value": { "type": ["string", "null"] },
+                    "timeout_ms": { "type": "number" }
+                  }
+                }
+              },
+              "wait_after_ms": { "type": "number" }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

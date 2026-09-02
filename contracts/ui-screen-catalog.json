@@ -1,0 +1,11 @@
+{
+  "$id": "https://chassis/contracts/ui-screen-catalog.json",
+  "version": "1.0.0",
+  "screens": [
+    { "id": "setup", "title": "Setup" },
+    { "id": "live-call", "title": "LiveCall" },
+    { "id": "scorecard", "title": "ScorecardView" },
+    { "id": "drill", "title": "Drill" },
+    { "id": "history", "title": "History" }
+  ]
+}

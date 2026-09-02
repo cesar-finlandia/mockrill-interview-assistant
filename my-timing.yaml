@@ -1,0 +1,62 @@
+# my-timing.yaml — Mockrill 4:00 timed script (inside 3-5 min band, 1 min margin both ends)
+# Rule: video opens on ticking transcript, not title slide — first 10 seconds decide Presentation score
+version: "1.0.0"
+total: "4:00"
+total_minutes: 4
+sections:
+  - id: hook_transcript_open
+    title: "Hook Transcript Open"
+    minutes: 0.16666666666666666
+    name: hook_transcript_open
+    duration: "00:10"
+    note: "Open on ticking transcript (words streaming with timestamps) — NO title slide"
+  - id: problem
+    title: "Problem"
+    minutes: 0.4166666666666667
+    name: problem
+    duration: "00:25"
+    note: "Spoken-screen freeze"
+  - id: user_and_product
+    title: "User and Product"
+    minutes: 0.5
+    name: user_and_product
+    duration: "00:30"
+    note: "Junior bootcamp grads / career switchers; product in one sentence"
+  - id: how_it_works
+    title: "How It Works"
+    minutes: 0.5
+    name: how_it_works
+    duration: "00:30"
+    note: "Architecture diagram from docs/architecture.mmd"
+  - id: assemblyai_usage
+    title: "AssemblyAI Usage"
+    minutes: 0.5
+    name: assemblyai_usage
+    duration: "00:30"
+    note: "Literal params: format_turns, keyterms_prompt, thresholds"
+  - id: demo
+    title: "Demo"
+    minutes: 1.0833333333333333
+    live: true
+    name: demo
+    duration: "01:05"
+    note: "Real spoken session — transcript → scorecard → re-drill (DEMODRIVE fallback only if live fails)"
+  - id: business_value
+    title: "Business Value"
+    minutes: 0.4166666666666667
+    name: business_value
+    duration: "00:25"
+    note: "B2C+B2B + TAM arithmetic visible"
+  - id: originality_and_next
+    title: "Originality and Next"
+    minutes: 0.25
+    name: originality_and_next
+    duration: "00:15"
+    note: "Prior art + differentiator + what's next"
+  - id: close_disclosure
+    title: "Close Disclosure"
+    minutes: 0.16666666666666666
+    name: close_disclosure
+    duration: "00:10"
+    note: "Disclosure + MIT license + Application URL"
+# Sum = 10+25+30+30+30+65+25+15+10 = 240s = 4:00 exactly

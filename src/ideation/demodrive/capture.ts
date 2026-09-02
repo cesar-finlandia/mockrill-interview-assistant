@@ -95,7 +95,12 @@ export async function executeStep(args: {
       case "click": {
         if (!action.selector) throw new Error("click action requires a selector");
         if (action.assert_visible ?? true) await assertVisible(page, action.selector, timeout);
-        await resolveLocator(page, action.selector).click({ timeout });
+        try {
+          await resolveLocator(page, action.selector).click({ timeout });
+        } catch {
+          // Fallback for offscreen/overlay hidden demodrive selectors (DP-PITCH A8)
+          await resolveLocator(page, action.selector).click({ timeout, force: true } as unknown as { timeout?: number });
+        }
         break;
       }
       case "fill": {

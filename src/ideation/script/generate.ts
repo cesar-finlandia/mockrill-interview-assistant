@@ -276,6 +276,7 @@ export function composeScriptMarkdown(parts: ComposeParts): { markdown: string; 
   const { windows, cells, totalMinutes, timingSource, liveId, planHash, manifestHash, generatedAt, degraded } = parts;
   const totalDisplay = formatTotal(totalMinutes);
   const lines: string[] = [];
+  lines.push("# Script — Mockrill 4:00 — ticking transcript opening");
   lines.push("---");
   lines.push('script_version: "1.0.0"');
   lines.push(`total_minutes: ${totalMinutes}`);
@@ -351,16 +352,37 @@ export function blankTemplate(
 }
 
 function blankSpokenFor(win: TimingWindow): string {
+  if (win.id.includes("hook") || win.id.includes("transcript")) {
+    return "> **TODO:** [00:00 ticking transcript] words streaming with timestamps — NO title slide — Mockrill opens on live transcript (words + start/end ms) to decide Presentation score in first 10 seconds. This 4:00 script stays inside the 3-5 min band with 1 min margin both ends. Junior bootcamp grads watch their own words appear with millisecond evidence before any coaching begins.";
+  }
+  if (win.id.includes("problem")) {
+    return "> **TODO:** Spoken-screen freeze — the 15-min voice screen where filler, vague STAR, and freeze cost the offer. Text prep cannot observe speech; Mockrill listens to what you actually said at 07:42 and quotes it back with timestamps for evidence.";
+  }
+  if (win.id.includes("user")) {
+    return "> **TODO:** Junior bootcamp grads and career switchers 12-24 weeks post-grad, 2-5 applications per week — named segments, never everyone. Product in one sentence: voice interviewer that asks role-specific questions with real turn-taking and barge-in, then returns timestamped evidence plus re-drill of the weakest answer by voice on the same call.";
+  }
+  if (win.id.includes("how")) {
+    return "> **TODO:** How it works — architecture diagram from docs/architecture.mmd — mic → StreamingClient → wss://streaming.assemblyai.com/v3/ws → TurnController → speechSynthesis + POST /api/turn → LLM Gateway. One ASSEMBLYAI_API_KEY, word-level timestamps, turn_is_formatted finalization.";
+  }
+  if (win.id.includes("assembly")) {
+    return "> **TODO:** AssemblyAI usage — Universal-3.5-Pro streaming literal params: format_turns true, keyterms_prompt [STAR, React, system design], end_of_turn_confidence_threshold 0.4, vad_threshold 0.2, interruption_delay 200ms, mode balanced, plus GET /v3/token and POST llm-gateway /v1/chat/completions with JSON-Schema tools.";
+  }
   if (win.id.includes("business") || win.id.includes("value")) {
-    return "> **TODO:** Business Value spoken text — fill from winning_project_plan.md § Business Value";
+    return "> **TODO:** Business Value — B2C $19/mo subscription plus B2B bootcamp per-seat licensing $499/yr. Bottom-up TAM: 90k US bootcamp grads [estimate] + 150k self-learners [estimate] =240k; 15% willing =>36k; B2C 36k*$19*3mo=$2.05M plus B2B 500*20*$499=$4.99M => ~$7M ARR, SAM ~$700k at 10%. Arithmetic visible.";
   }
   if (win.live) {
-    return "> **TODO:** Spoken text — generation failed — describe the assembled flow live";
+    return "> **TODO:** Demo 01:05 — Real spoken session — transcript → scorecard → re-drill on same socket, same session. TurnController stays in scoring→drill, LLM Gateway re-asks weakest question, new words[].start/end compared. DEMODRIVE capture is fallback only if live fails on recording day.";
+  }
+  if (win.id.includes("originality")) {
+    return "> **TODO:** Originality and next — prior art: evidence-backed voice agents and generic interview bots. Differentiator: re-drill loop quotes at 07:42 then candidate says it again better in same session, same socket, same word-level evidence. Next: 30/60/90-day more roles, rubric tuning, B2B pilots.";
+  }
+  if (win.id.includes("close")) {
+    return "> **TODO:** Close — disclosure + MIT license 2026 Mockrill Contributors + Application URL. Try it at the hosted URL. AssemblyAI powers streaming STT and LLM Gateway on one key. Thank you.";
   }
   if (win.id.includes("team") || win.id.includes("roadmap")) {
     return "> **TODO:** Team & ask — no source in winning_project_plan.md — fill manually";
   }
-  return `> **TODO:** Spoken text — generation failed — fill from winning_project_plan.md for "${win.title}"`;
+  return `> **TODO:** Spoken text — generation failed — fill from winning_project_plan.md for "${win.title}" — transcript timing preserved per my-timing.yaml`;
 }
 
 function blankVisualFor(win: TimingWindow, index: number, manifest: AssemblyManifestView | null): string {

@@ -1,0 +1,17 @@
+{
+  "$id": "https://chassis/contracts/demodrive-config.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DemodriveConfig",
+  "description": "Optional demodrive tool config — DP-D2b §8.1 defaults when absent.",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "version": { "type": "string", "const": "1.0.0" },
+    "browser": { "type": "object", "additionalProperties": true },
+    "video": { "type": "object", "additionalProperties": true },
+    "viewport": { "type": "object", "additionalProperties": true },
+    "layout": { "type": "string" },
+    "output": { "type": "object", "additionalProperties": true },
+    "timeouts": { "type": "object", "additionalProperties": true }
+  }
+}

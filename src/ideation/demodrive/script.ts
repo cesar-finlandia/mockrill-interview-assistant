@@ -162,12 +162,53 @@ function readJsonFile(filePath: string): { ok: true; data: unknown } | { ok: fal
 /** DEMODRIVE-02 — load + RES-04-validate a click-sequence script.
  * Never throws raw: any failure returns `{ ok:false, errors:[{path,message,code}] }`.
  * `path` is the user-facing script path; `error.path` is a JSON Pointer into it. */
+function normalizeDemodriveScript(data: unknown): unknown {
+  if (typeof data !== "object" || data === null) return data;
+  const obj = data as Record<string, unknown>;
+  // DP-PITCH §5 A8 uses camelCase baseUrl; chassis uses base_url
+  if (typeof obj["baseUrl"] === "string" && typeof obj["base_url"] !== "string") {
+    obj["base_url"] = obj["baseUrl"];
+  }
+  // Also handle viewport/fullPage/fast aliases
+  if (obj["fullPage"] !== undefined && obj["full_page"] === undefined) obj["full_page"] = obj["fullPage"];
+  // Translate flat steps (handout A8: {action:"goto"|"click"|"wait"|"screenshot"}) into DemodriveStep[]
+  if (Array.isArray(obj["steps"])) {
+    const steps = obj["steps"] as unknown[];
+    const needsTranslate = steps.length > 0 && typeof steps[0] === "object" && steps[0] !== null && "action" in (steps[0] as Record<string, unknown>) && !("actions" in (steps[0] as Record<string, unknown>));
+    if (needsTranslate) {
+      const flatSteps = steps as Array<Record<string, unknown>>;
+      const translated: DemodriveStep[] = flatSteps.map((s, idx) => {
+        const action = s["action"] as string;
+        const selector = s["selector"] as string | undefined;
+        const url = s["url"] as string | undefined;
+        const ms = s["ms"] as number | undefined;
+        const fullPage = s["fullPage"] as boolean | undefined;
+        const note = s["note"] as string | undefined;
+        let mappedAction: DemodriveAction;
+        if (action === "goto" || action === "navigate") mappedAction = { action: "navigate", value: (url ?? "/"), timeout_ms: 5000 };
+        else if (action === "click") mappedAction = { action: "click", selector: selector ?? null, timeout_ms: 5000, assert_visible: false };
+        else if (action === "wait") mappedAction = { action: "wait_ms", value: String(ms ?? 1000) };
+        else if (action === "screenshot") mappedAction = { action: "screenshot", selector: null };
+        else mappedAction = { action: action as DemodriveActionKind, selector: selector ?? null, value: (url ?? (ms !== undefined ? String(ms) : undefined)) ?? null };
+        return { id: `step-${String(idx + 1).padStart(2, "0")}`, description: (note as string) ?? undefined, actions: [mappedAction], wait_after_ms: ms !== undefined && action === "wait" ? undefined : 300 };
+      });
+      obj["steps"] = translated;
+    }
+  }
+  // Ensure viewport device_scale_factor alias
+  if (obj["viewport"] && typeof obj["viewport"] === "object") {
+    const vp = obj["viewport"] as Record<string, unknown>;
+    if (vp["device_scale_factor"] === undefined && vp["deviceScaleFactor"] !== undefined) vp["device_scale_factor"] = vp["deviceScaleFactor"];
+  }
+  return obj;
+}
+
 export function loadDemodriveScript(scriptPath: string): DemodriveScriptResult {
   const parsed = readJsonFile(scriptPath);
   if (!parsed.ok) return { ok: false, errors: [parsed.error] };
-
+  const normalized = normalizeDemodriveScript(parsed.data);
   const schema = JSON.parse(readFileSync(DEMODRIVE_SCRIPT_SCHEMA_PATH, "utf8")) as object;
-  const res = validate(schema, parsed.data);
+  const res = validate(schema, normalized);
   if (!res.valid) {
     return {
       ok: false,
@@ -178,7 +219,7 @@ export function loadDemodriveScript(scriptPath: string): DemodriveScriptResult {
       })),
     };
   }
-  return { ok: true, script: parsed.data as DemodriveScript };
+  return { ok: true, script: normalized as DemodriveScript };
 }
 
 /** Per-section shallow merge: config file values win, defaults fill the rest. */

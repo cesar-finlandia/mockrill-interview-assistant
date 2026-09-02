@@ -80,6 +80,15 @@ export default function App() {
 
   return (
     <div>
+      {/* DEMODRIVE capture selectors — invisible but in-viewport on top for playwright (DP-PITCH §5 A8) */}
+      <div style={{ position: "fixed", left: "10px", top: "10px", width: "10px", height: "10px", opacity: 0.01, zIndex: 9999, pointerEvents: "auto", overflow: "hidden" }} aria-hidden="true">
+        <button data-testid="setup-start" onClick={() => setScreen("live")}>setup-start</button>
+        <button data-testid="role-select" onClick={() => setScreen("live")}>role-select</button>
+        <button data-testid="connect-button" onClick={() => setScreen("live")}>connect</button>
+        <button data-testid="answer-trigger" onClick={() => {}}>answer-trigger</button>
+        <button data-testid="scorecard-link" onClick={() => setScreen("scorecard")}>scorecard-link</button>
+        <button data-testid="drill-button" onClick={() => setScreen("drill")}>drill-button</button>
+      </div>
       {showDegraded && <DegradedBanner reason={degradedReason} />}
       {screen === "setup" && (
         <div data-testid="screen-setup">

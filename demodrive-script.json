@@ -1,0 +1,69 @@
+{
+  "version": "1.0.0",
+  "baseUrl": "http://localhost:4173",
+  "steps": [
+    {
+      "action": "goto",
+      "url": "/"
+    },
+    {
+      "action": "click",
+      "selector": "[data-testid='setup-start']",
+      "note": "Setup screen — select role"
+    },
+    {
+      "action": "click",
+      "selector": "[data-testid='role-select']",
+      "note": "Choose role (e.g. frontend)"
+    },
+    {
+      "action": "click",
+      "selector": "[data-testid='connect-button']",
+      "note": "LiveCall — connect mic / start session"
+    },
+    {
+      "action": "wait",
+      "ms": 2000,
+      "note": "Allow Begin + first Turn to stream"
+    },
+    {
+      "action": "click",
+      "selector": "[data-testid='answer-trigger']",
+      "note": "Simulate candidate turn (mock data-source injects TranscriptTurn)"
+    },
+    {
+      "action": "wait",
+      "ms": 3000,
+      "note": "Score streaming"
+    },
+    {
+      "action": "click",
+      "selector": "[data-testid='scorecard-link']",
+      "note": "Navigate to ScorecardView"
+    },
+    {
+      "action": "wait",
+      "ms": 1000
+    },
+    {
+      "action": "click",
+      "selector": "[data-testid='drill-button']",
+      "note": "Drill weakest question"
+    },
+    {
+      "action": "wait",
+      "ms": 2000
+    },
+    {
+      "action": "screenshot",
+      "fullPage": true,
+      "note": "Capture final state"
+    }
+  ],
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "fullPage": true,
+  "fast": true
+}

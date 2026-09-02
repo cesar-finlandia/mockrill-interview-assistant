@@ -130,7 +130,7 @@ function resolveDataSource(script: DemodriveScript, opts: CaptureOptions) {
   const cacheKey = opts.cacheKey ?? script.data_source?.cache_key ?? undefined;
   return {
     kind,
-    mock_script: script.data_source?.mock_script ?? undefined,
+    mock_script: script.data_source?.mock_script ?? (kind === "mock" ? "fixtures/mockrill/session-golden.json" : undefined),
     cache_key: kind === "cache" ? cacheKey : undefined,
   };
 }
@@ -212,8 +212,9 @@ export async function runCaptureCore(args: {
   try {
     // ---- Data-source feeder (DEMODRIVE-01) ---------------------------------
     const source = resolveDataSource(script, opts);
+    // Default mock_script is fixtures/mockrill/session-golden.json when not provided (DP-PITCH A8 leaves it implicit)
     if (source.kind === "mock" && !source.mock_script) {
-      throw new Error("data_source.kind=mock requires data_source.mock_script path");
+      (source as { mock_script: string }).mock_script = "fixtures/mockrill/session-golden.json";
     }
     feeder = await args.startFeeder({ source, fast: opts.fast });
     void feeder.done.catch(() => undefined); // feeder logs its own failures
