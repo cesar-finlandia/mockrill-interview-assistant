@@ -1,4 +1,3 @@
-// stub for DP-TURNTAKING M22/M23 compile — real implementation owned by DP-UI
 import type { EventEnvelope } from "src/platform/transport";
 export type MockrillEventBus = {
   emit(env: EventEnvelope): void;
@@ -8,21 +7,22 @@ export type MockrillEventBus = {
 };
 export function createEventBus(): MockrillEventBus {
   const envelopes: EventEnvelope[] = [];
-  const subs: ((env: EventEnvelope) => void)[] = [];
+  const subscribers: ((env: EventEnvelope) => void)[] = [];
   return {
     emit(env: EventEnvelope) {
       envelopes.push(env);
-      for (const cb of [...subs]) try { cb(env); } catch (e) { console.error("[mockrillBus] subscriber threw", e); }
+      for (const cb of [...subscribers]) try { cb(env); } catch (e) { console.error("[mockrillBus] subscriber threw", e); }
     },
     subscribe(cb: (env: EventEnvelope) => void) {
-      subs.push(cb);
+      subscribers.push(cb);
       return () => {
-        const i = subs.indexOf(cb);
-        if (i !== -1) subs.splice(i, 1);
+        const i = subscribers.indexOf(cb);
+        if (i !== -1) subscribers.splice(i, 1);
       };
     },
     snapshot() { return [...envelopes]; },
-    reset() { envelopes.length = 0; subs.length = 0; },
+    reset() { envelopes.length = 0; subscribers.length = 0; },
   };
 }
+// the only singleton in the app — shared by voice layer and React tree without prop-drilling.
 export const mockrillBus = createEventBus();
