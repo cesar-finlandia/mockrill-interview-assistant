@@ -1,5 +1,0 @@
-allowBuilds:
-  esbuild: set this to true or false
-minimumReleaseAgeExclude:
-  - '@vercel/build-utils@14.9.0'
-  - '@vercel/node@12.0.0'
