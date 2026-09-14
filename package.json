@@ -12,7 +12,7 @@
   "scripts": {
     "generate:contracts": "node scripts/generate-contracts.ts",
     "deploy": "vite-node scripts/deploy.ts",
-    "deploy:verify": "vite-node scripts/smoke-deploy.ts",
+    "deploy:verify": "tsx scripts/smoke-deploy.ts",
     "lint:contracts": "node scripts/lint-contracts.ts",
     "test": "pnpm -F resilience run test",
     "test:offline": "pnpm -F resilience run test:offline",
