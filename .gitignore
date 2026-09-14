@@ -111,3 +111,10 @@ AGENTS.md
 
 .vercel
 .env*
+
+/design_documents/
+/templates/
+/private/
+/demo/
+/deck/
+script.md
