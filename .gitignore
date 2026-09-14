@@ -20,6 +20,8 @@ dist/
 .cache/
 .vite/
 .vercel/
+pnpm-lock.yaml
+pnpm-workspace.yaml
 
 # --- Test artifacts ----------------------------------------------------------------
 # Playwright writes traces, videos and screenshots per failing test; the specs in
