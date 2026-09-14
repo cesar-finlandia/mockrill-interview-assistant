@@ -49,6 +49,8 @@ export function createSimMicSource(opts?: { chunkMs?: number }): MicSource {
 
   return {
     stream: null as unknown as MediaStream,
+    deviceId: null,
+    label: "Simulated microphone",
     onChunk(next) {
       cb = next;
     },

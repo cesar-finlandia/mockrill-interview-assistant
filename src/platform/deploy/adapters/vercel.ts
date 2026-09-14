@@ -14,10 +14,13 @@ import { join } from "node:path";
 import type { DeployResult } from "../types.js";
 
 function runCapture(cmd: string[], label: string): string {
+  // shell:true is required on win32 to resolve npx.cmd, but shell:true with an
+  // args array triggers DEP0190. NODE_NO_WARNINGS silences the footer; the
+  // command still runs through the shell exactly as before.
   const res = spawnSync(cmd[0] ?? "vercel", cmd.slice(1), {
     stdio: ["inherit", "pipe", "pipe"],
-    shell: process.platform === "win32",
-    env: { ...process.env, FORCE_COLOR: "0" },
+    shell: true,
+    env: { ...process.env, FORCE_COLOR: "0", NODE_NO_WARNINGS: "1" },
     encoding: "utf8",
   });
   if (res.error) throw new Error(`${label}: could not spawn (${res.error.message})`);

@@ -8,12 +8,35 @@ export type Speaker = {
   readonly available: boolean;
   /** A voice is actually installed, i.e. the question will be heard and not only read. */
   readonly audible: boolean;
+  /** All installed voices (empty when unavailable). */
+  listVoices(): SpeechSynthesisVoice[];
+  /** Currently selected voice, if any. */
+  currentVoice(): SpeechSynthesisVoice | null;
+  /** Persist a voice choice by voiceURI; pass null to return to auto-select. */
+  selectVoiceByUri(uri: string | null): void;
 };
+
+export function listSpeechVoices(): SpeechSynthesisVoice[] {
+  try {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return [];
+    return (window as unknown as { speechSynthesis: SpeechSynthesis }).speechSynthesis.getVoices() ?? [];
+  } catch {
+    return [];
+  }
+}
+
+export function storedVoiceUri(): string | null {
+  try {
+    return localStorage.getItem("mockrill:voiceURI");
+  } catch {
+    return null;
+  }
+}
 
 const VOICE_WAIT_MS = 1500;
 const WATCHDOG_MS = 30000;
 
-export function createSpeaker(): Speaker {
+export function createSpeaker(opts?: { voiceURI?: string | null }): Speaker {
   const available = typeof window !== "undefined" && "speechSynthesis" in window;
   let speaking = false;
   let pendingResolve: (() => void) | null = null;
@@ -23,6 +46,11 @@ export function createSpeaker(): Speaker {
   function selectVoice(): SpeechSynthesisVoice | null {
     const voices = (window as unknown as { speechSynthesis: SpeechSynthesis }).speechSynthesis.getVoices() as SpeechSynthesisVoice[];
     if (voices.length === 0) return null;
+    const wanted = opts?.voiceURI ?? storedVoiceUri();
+    if (wanted) {
+      const match = voices.find((v) => v.voiceURI === wanted);
+      if (match) return match;
+    }
     const google = voices.find((v) => v.lang.startsWith("en-") && v.name.includes("Google"));
     if (google) return google;
     const en = voices.find((v) => v.lang.startsWith("en-"));
@@ -81,6 +109,10 @@ export function createSpeaker(): Speaker {
 
   function speak(text: string): Promise<void> {
     if (!available) return Promise.resolve();
+    // Re-resolve the voice at speak time: Chrome loads voices asynchronously, so the
+    // voice list can be empty at page load and populated by the time the user starts
+    // the call. Re-selecting here is what makes the first question audible.
+    chosenVoice = selectVoice();
     // R-05: a machine with speechSynthesis but zero installed voices (headless Chromium,
     // some Linux desktops) accepts speak() and then never fires onend. Resolving straight
     // away keeps the session moving; the UI already shows the question as on-screen text.
@@ -164,5 +196,20 @@ export function createSpeaker(): Speaker {
     },
     speak,
     cancel,
+    listVoices() {
+      return listSpeechVoices();
+    },
+    currentVoice() {
+      return chosenVoice;
+    },
+    selectVoiceByUri(uri: string | null) {
+      try {
+        if (uri) localStorage.setItem("mockrill:voiceURI", uri);
+        else localStorage.removeItem("mockrill:voiceURI");
+      } catch {}
+      try {
+        chosenVoice = selectVoice();
+      } catch {}
+    },
   };
 }

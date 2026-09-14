@@ -24,6 +24,7 @@ import { History } from "./screens/History.js";
 import { mockrillBus } from "./eventBus.js";
 import { startSession } from "./session.js";
 import type { SessionMode, StartedSession } from "./session.js";
+import { unlockAudioOnGesture } from "src/mockrill/voice/devices.js";
 
 type Screen = "setup" | "live" | "scorecard" | "drill" | "history";
 
@@ -152,6 +153,11 @@ export default function App() {
 
   const handleStart = useCallback(
     async (role: string) => {
+      // Must run synchronously inside the click handler: browsers gate speechSynthesis
+      // and AudioContext behind user activation, and the async token fetch + socket
+      // handshake in startSession would otherwise lose the gesture and the first
+      // question would be silent.
+      unlockAudioOnGesture();
       setStartError(null);
       setRole(role);
       setScreen("live");

@@ -73,6 +73,14 @@ export type StartedSession = {
   stop: () => Promise<void>;
 };
 
+function readStoredId(key: string): string | null {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Build and start a session. Rejects only when the microphone is unavailable in live mode —
  * every other failure path degrades inside the controller.
@@ -81,9 +89,15 @@ export async function startSession(opts: {
   role: string;
   bus: MockrillEventBus;
   mode: SessionMode;
+  micDeviceId?: string | null;
+  voiceURI?: string | null;
   nextAction?: (req: TurnRequest) => Promise<InterviewerAction>;
 }): Promise<StartedSession> {
   const { role, bus } = opts;
+  const storedMic = readStoredId("mockrill:micDeviceId");
+  const micDeviceId = opts.micDeviceId ?? storedMic ?? undefined;
+  const storedVoice = readStoredId("mockrill:voiceURI");
+  const voiceURI = opts.voiceURI ?? storedVoice ?? undefined;
   const { mode, reason } = await resolveEffectiveMode(opts.mode);
   if (reason !== null) {
     // NFR-02/NFR-03: surfaced as a degraded envelope so the banner explains itself and the
@@ -94,7 +108,7 @@ export async function startSession(opts: {
   }
   let mic: MicSource;
   try {
-    mic = mode === "sim" ? createSimMicSource() : await createMicSource({ sampleRate: 16000 });
+    mic = mode === "sim" ? createSimMicSource() : await createMicSource({ sampleRate: 16000, deviceId: micDeviceId });
   } catch (e) {
     // FR-01 / T3: a denied microphone is a first-class UI state, not an exception.
     bus.emit(
@@ -103,7 +117,7 @@ export async function startSession(opts: {
     throw e;
   }
 
-  const speaker = createSpeaker();
+  const speaker = createSpeaker({ voiceURI: voiceURI ?? null });
   // The controller is created after the client because the client needs the controller's
   // handlers; the indirection through `controller` keeps that knot untied.
   let controller: TurnController | null = null;

@@ -11,7 +11,7 @@
   },
   "scripts": {
     "generate:contracts": "node scripts/generate-contracts.ts",
-    "deploy": "vite-node scripts/deploy.ts",
+    "deploy": "cross-env NODE_NO_WARNINGS=1 vite-node scripts/deploy.ts",
     "deploy:verify": "tsx scripts/smoke-deploy.ts",
     "lint:contracts": "node scripts/lint-contracts.ts",
     "test": "pnpm -F resilience run test",

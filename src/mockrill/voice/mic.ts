@@ -1,15 +1,28 @@
 export type MicSource = {
   stream: MediaStream;
+  deviceId: string | null;
+  label: string | null;
   onChunk(cb: (pcm: Int16Array) => void): void;
   setMuted(muted: boolean): void;
   stop(): void;
 };
 
-export async function createMicSource(opts?: { sampleRate?: number }): Promise<MicSource> {
+function readStoredMicDevice(): string | undefined {
+  try {
+    return localStorage.getItem("mockrill:micDeviceId") ?? undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+export async function createMicSource(opts?: { sampleRate?: number; deviceId?: string }): Promise<MicSource> {
   const desiredRate = opts?.sampleRate ?? 16000;
+  const deviceId = opts?.deviceId ?? readStoredMicDevice();
   let stream: MediaStream;
   try {
-    stream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
+    const audio: MediaTrackConstraints = { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true };
+    if (deviceId) audio.deviceId = { exact: deviceId };
+    stream = await navigator.mediaDevices.getUserMedia({ audio });
   } catch (e: unknown) {
     const err = e as { name?: string; message?: string };
     if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
@@ -57,6 +70,8 @@ export async function createMicSource(opts?: { sampleRate?: number }): Promise<M
 
   return {
     stream,
+    deviceId: stream.getAudioTracks()[0]?.getSettings()?.deviceId ?? deviceId ?? null,
+    label: stream.getAudioTracks()[0]?.label ?? null,
     onChunk(cb: (pcm: Int16Array) => void) {
       chunkCb = cb;
     },
