@@ -3,7 +3,7 @@
   "name": "hackathon-chassis",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "npm@10.9.3",
+  "packageManager": "npm@11.13.0",
   "$type-note": "ESM repo root: scripts/*.ts compile as NodeNext ESM so import.meta resolves (bench-token-overhead).",
   "type": "module",
   "engines": {
