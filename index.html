@@ -1,13 +1,41 @@
 <!doctype html>
 <!-- Requirement IDs: UI-03, UI-06, UI-AC-02 | DP-B §10.8 item 1 -->
-<!-- Minimal dev shell for the platform UI library: THEME env selects the
-     theme at bootstrap (single config change); layout is single-focus per
-     docs/ui-layout.md. Not a product app — demo/smoke surface only. -->
-<html lang="en">
+<!-- Product shell for Mockrill. `data-theme` selects the chassis density/type skin;
+     `data-mode` (stamped below, before first paint) selects light/dark appearance.
+     See design_documents/visual_identity_plan.md §4. -->
+<html lang="en" data-theme="minimal" data-mode="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f7fa" />
+    <meta
+      name="description"
+      content="Mockrill — rehearse a real voice technical screen and get a scorecard that quotes the exact moment you said it."
+    />
     <title>Mockrill — Realtime AI Mock-Interview Voice Coach</title>
+
+    <!-- Variable type (Space Grotesk display / Inter UI / JetBrains Mono data) is bundled
+         via Fontsource in main.tsx — no CDN round trip, works offline. -->
+
+    <!-- Pre-paint mode bootstrap: no white flash for a dark-mode user (§4.2). -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("mockrill:mode");
+          var mode =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          document.documentElement.setAttribute("data-mode", mode);
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute("content", mode === "dark" ? "#090b10" : "#f5f7fa");
+        } catch (e) {
+          /* storage blocked — the light default in the markup stands */
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

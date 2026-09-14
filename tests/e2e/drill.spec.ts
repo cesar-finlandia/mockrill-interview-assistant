@@ -16,7 +16,7 @@ test.describe("Re-drill", () => {
     const beforeScore = before.scorecard!.per_question.find((q) => q.question_id === weakestId)!;
     const mintsBefore = tokenMints.length;
 
-    await page.getByRole("button", { name: "Re-drill this answer" }).click();
+    await page.getByRole("button", { name: "Re-drill this answer", exact: true }).click();
     await expect(page.getByTestId("screen-drill")).toBeVisible();
 
     // The drill screen shows the moment being fixed and what to aim at.
@@ -44,7 +44,7 @@ test.describe("Re-drill", () => {
     const weakestId = before.scorecard!.weakest_question_id!;
     const beforeScore = before.scorecard!.per_question.find((q) => q.question_id === weakestId)!;
 
-    await page.getByRole("button", { name: "Re-drill this answer" }).click();
+    await page.getByRole("button", { name: "Re-drill this answer", exact: true }).click();
     await expect(page.getByTestId("screen-drill")).toBeVisible();
 
     // The retry is transcribed live on the drill screen…
@@ -78,9 +78,9 @@ test.describe("Re-drill", () => {
 
   test("returns to the scorecard from the drill", async ({ page }) => {
     await runInterviewToScorecard(page);
-    await page.getByRole("button", { name: "Re-drill this answer" }).click();
+    await page.getByRole("button", { name: "Re-drill this answer", exact: true }).click();
     await expect(page.getByTestId("screen-drill")).toBeVisible();
-    await page.getByRole("button", { name: "Back to Scorecard" }).click();
+    await page.getByRole("button", { name: "Back to Scorecard", exact: true }).click();
     await expect(page.getByTestId("screen-scorecard")).toBeVisible();
   });
 });

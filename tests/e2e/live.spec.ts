@@ -25,7 +25,7 @@ test.describe("Live AssemblyAI path", () => {
     await page.goto("/");
     await waitForApp(page);
     await page.selectOption("#role-select", "junior-frontend");
-    await page.getByRole("button", { name: "Start screening call" }).click();
+    await page.getByRole("button", { name: "Start screening call", exact: true }).click();
 
     await expect.poll(() => sockets.length, { timeout: 30_000 }).toBeGreaterThan(0);
     const url = sockets.find((u) => u.includes("streaming.assemblyai.com"))!;
@@ -45,7 +45,7 @@ test.describe("Live AssemblyAI path", () => {
     await page.goto("/");
     await waitForApp(page);
     await page.selectOption("#role-select", "junior-frontend");
-    await page.getByRole("button", { name: "Start screening call" }).click();
+    await page.getByRole("button", { name: "Start screening call", exact: true }).click();
 
     // Chromium's fake device emits silence, so no Turn will finalize — but Begin must arrive
     // and the machine must reach the point where it is listening for the candidate.

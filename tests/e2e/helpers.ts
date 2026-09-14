@@ -48,7 +48,7 @@ export async function startCall(page: Page, opts: { url?: string; role?: string 
   await waitForApp(page);
   await expect(page.getByTestId("screen-setup")).toBeVisible();
   await page.selectOption("#role-select", opts.role ?? "junior-frontend");
-  await page.getByRole("button", { name: "Start screening call" }).click();
+  await page.getByRole("button", { name: "Start screening call", exact: true }).click();
   await expect(page.getByTestId("screen-live")).toBeVisible();
 }
 

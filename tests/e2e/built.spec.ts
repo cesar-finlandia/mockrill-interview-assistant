@@ -18,7 +18,7 @@ test.describe("Production bundle", () => {
     await page.goto("/?sim=1");
     await waitForApp(page);
     await page.selectOption("#role-select", "junior-frontend");
-    await page.getByRole("button", { name: "Start screening call" }).click();
+    await page.getByRole("button", { name: "Start screening call", exact: true }).click();
     await expect(page.getByTestId("screen-scorecard")).toBeVisible({ timeout: 60_000 });
 
     const p = await probe(page);
@@ -31,9 +31,9 @@ test.describe("Production bundle", () => {
     await page.goto("/?sim=1");
     await waitForApp(page);
     await page.selectOption("#role-select", "junior-frontend");
-    await page.getByRole("button", { name: "Start screening call" }).click();
+    await page.getByRole("button", { name: "Start screening call", exact: true }).click();
     await expect(page.getByTestId("screen-scorecard")).toBeVisible({ timeout: 60_000 });
-    await page.getByRole("button", { name: "Re-drill this answer" }).click();
+    await page.getByRole("button", { name: "Re-drill this answer", exact: true }).click();
     await expect(page.getByTestId("screen-drill")).toBeVisible();
     await expect(page.locator('[data-testid="screen-drill"] table')).toBeVisible({ timeout: 45_000 });
   });

@@ -2,6 +2,10 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useMockrillEvents, resolveMockrillSource } from "./useMockrillEvents.js";
 import { isDegradedEnvelope, degradedResultOf } from "src/platform/ui/index.js";
 import { DegradedBanner } from "./components/DegradedBanner.js";
+import { AppShell } from "./components/AppShell.js";
+import { CountUp, ScoreRing } from "./components/DataViz.js";
+import { ArrowLeft, ClipboardCheck, History as HistoryIcon } from "lucide-react";
+import { HelpPopover } from "./components/HelpPopover.js";
 import type { EventEnvelope } from "src/platform/transport";
 import type {
   Scorecard,
@@ -11,6 +15,7 @@ import type {
   AnswerScore,
   RubricAxis,
 } from "src/mockrill/contracts/index.js";
+import { formatTimestamp } from "src/mockrill/contracts/index.js";
 import { Setup } from "./screens/Setup.js";
 import { LiveCall } from "./screens/LiveCall.js";
 import { Drill } from "./screens/Drill.js";
@@ -81,6 +86,8 @@ export default function App() {
   // ticking transcript is what the judge should land on (ladder rung 4).
   const [screen, setScreen] = useState<Screen>(source === "stream" ? "live" : "setup");
   const [sessions, setSessions] = useState<Scorecard[]>([]);
+  // Purely for the header breadcrumb — the session itself owns the real role.
+  const [role, setRole] = useState<string | null>(null);
   const [activeScorecard, setActiveScorecard] = useState<Scorecard | null>(null);
   const [startError, setStartError] = useState<string | null>(null);
   const [drillContext, setDrillContext] = useState<{
@@ -146,6 +153,7 @@ export default function App() {
   const handleStart = useCallback(
     async (role: string) => {
       setStartError(null);
+      setRole(role);
       setScreen("live");
       if (source === "stream") return; // rung 4: envelopes arrive over SSE, no voice layer
       if (sessionRef.current) return;
@@ -199,8 +207,20 @@ export default function App() {
     [activeScorecard, askedQuestions],
   );
 
+  const liveNow =
+    screen === "live" &&
+    (sessionState === "connecting" ||
+      sessionState === "listening" ||
+      sessionState === "thinking" ||
+      sessionState === "speaking" ||
+      sessionState === "scoring");
+
   return (
-    <div>
+    <AppShell
+      context={role}
+      live={liveNow}
+      banner={showDegraded ? <DegradedBanner reason={degradedReason} /> : null}
+    >
       {/* DEMODRIVE capture selectors — off-screen but in-viewport for the scripted capture
           (DP-PITCH §5 A8). They drive the same handlers as the visible controls. */}
       <div
@@ -224,43 +244,136 @@ export default function App() {
         </button>
       </div>
 
-      {showDegraded && <DegradedBanner reason={degradedReason} />}
-
       {screen === "setup" && (
-        <div data-testid="screen-setup">
+        <div data-testid="screen-setup" className="mk-stack">
           <Setup onStart={(role) => void handleStart(role)} onHistory={() => setScreen("history")} />
         </div>
       )}
 
       {screen === "live" && (
-        <div data-testid="screen-live">
+        <div data-testid="screen-live" className="mk-stack">
+          <div className="mk-row" style={{ gap: "var(--mk-sp-2)" }}>
+            <span className="mk-label">Live call</span>
+            <HelpPopover
+              label="Help: live call page"
+              title="Live call — the interview itself"
+              body="You answer aloud while the transcript ticks. VAD finalises turns, the LLM picks the next question, and barge-in lets you correct yourself without overlap. Ends with scoring."
+            />
+          </div>
           <LiveCall envelopes={envelopes} sessionState={sessionState} />
           {startError && (
-            <div role="alert" data-testid="start-error">
+            <div role="alert" data-testid="start-error" className="mk-card mk-card--danger">
               Could not start the call: {startError}. Allow microphone access, or continue in
               simulation mode.
             </div>
           )}
-          {activeScorecard && <button onClick={() => setScreen("scorecard")}>View Scorecard</button>}
-          <button
-            onClick={() => {
-              void sessionRef.current?.stop();
-              sessionRef.current = null;
-              setScreen("setup");
-            }}
-          >
-            Back to Setup
-          </button>
+          <div className="mk-btn-row">
+            {activeScorecard && (
+              <span className="mk-row" style={{ gap: "var(--mk-sp-2)" }}>
+                <button className="mk-btn mk-btn--primary" onClick={() => setScreen("scorecard")}>
+                  <ClipboardCheck size={16} aria-hidden="true" />
+                  View Scorecard
+                </button>
+                <HelpPopover
+                  label="Help: View Scorecard"
+                  title="View Scorecard"
+                  body="Opens the evidence-backed breakdown of every answer — four axes, timestamp receipts, and the weakest-answer gate that leads to re-drill."
+                />
+              </span>
+            )}
+            <button
+              className="mk-btn mk-btn--ghost"
+              onClick={() => {
+                void sessionRef.current?.stop();
+                sessionRef.current = null;
+                setScreen("setup");
+              }}
+            >
+              <ArrowLeft size={15} aria-hidden="true" />
+              Back to Setup
+            </button>
+          </div>
         </div>
       )}
 
       {screen === "scorecard" && activeScorecard && (
-        <div data-testid="screen-scorecard">
-          <h1>Scorecard</h1>
-          <p data-testid="scorecard-overall">Overall {activeScorecard.overall}</p>
-          <p data-testid="scorecard-fillers">Filler words: {activeScorecard.filler_total}</p>
+        <div data-testid="screen-scorecard" className="mk-stack">
+          <div className="mk-stack mk-stack--tight">
+            <span className="mk-row" style={{ gap: "var(--mk-sp-2)" }}>
+              <span className="mk-label">Evidence-backed scorecard</span>
+              <HelpPopover
+                label="Help: scorecard page"
+                title="Scorecard — the payoff"
+                body="Summary (overall, fillers, duration) plus one card per answer with meters, radar and timestamped quotes. Amber Focus here marks the weakest — re-drills from there."
+              />
+            </span>
+            <div className="mk-row" style={{ gap: "var(--mk-sp-2)" }}>
+              <h1>Scorecard</h1>
+              <HelpPopover
+                label="Help: overall score"
+                title="Overall &amp; summary"
+                body="Overall is 0–5 from the four axes. Filler total is deterministic from word timestamps; chips show word @ mm:ss. Duration is from first session-start."
+              />
+            </div>
+          </div>
+
+          <section className="mk-card mk-card--panel">
+            <div className="mk-summary">
+              <ScoreRing value={activeScorecard.overall} />
+              <div className="mk-summary__stats">
+                <div className="mk-stat">
+                  <span className="mk-label">Overall</span>
+                  <CountUp
+                    value={activeScorecard.overall}
+                    className="mk-stat__value"
+                    testId="scorecard-overall"
+                  />
+                </div>
+                <div className="mk-stat">
+                  <span className="mk-label">Filler words</span>
+                  <CountUp
+                    value={activeScorecard.filler_total}
+                    className="mk-stat__value"
+                    testId="scorecard-fillers"
+                  />
+                </div>
+                <div className="mk-stat">
+                  <span className="mk-label">Duration</span>
+                  <span className="mk-stat__value">{formatTimestamp(activeScorecard.duration_ms)}</span>
+                </div>
+                <div className="mk-stat">
+                  <span className="mk-label">Answers</span>
+                  <span className="mk-stat__value">{activeScorecard.per_question.length}</span>
+                </div>
+              </div>
+            </div>
+            {activeScorecard.filler_top.length > 0 && (
+              <div className="mk-row" style={{ marginTop: "var(--mk-sp-4)" }}>
+                <span className="mk-label">Most repeated</span>
+                {activeScorecard.filler_top.slice(0, 5).map((f, i) => (
+                  <span key={`${f.word}-${f.start_ms}-${i}`} className="mk-chip mk-chip--rose">
+                    “{f.word}” @ {formatTimestamp(f.start_ms)}
+                  </span>
+                ))}
+              </div>
+            )}
+          </section>
+
           <ScorecardView scorecard={activeScorecard} onDrill={handleDrill} />
-          <button onClick={() => setScreen("history")}>History</button>
+
+          <div className="mk-btn-row">
+            <span className="mk-row" style={{ gap: "var(--mk-sp-2)" }}>
+              <button className="mk-btn mk-btn--ghost" onClick={() => setScreen("history")}>
+                <HistoryIcon size={15} aria-hidden="true" />
+                History
+              </button>
+              <HelpPopover
+                label="Help: History from scorecard"
+                title="Go to History"
+                body="Leaves the scorecard for the in-memory log of past calls in this browser session."
+              />
+            </span>
+          </div>
         </div>
       )}
 
@@ -290,9 +403,26 @@ export default function App() {
             }
           }
           return (
-            <div data-testid="screen-drill">
-              <h1>Re-drill</h1>
-              <p>{drillContext.question.text}</p>
+            <div data-testid="screen-drill" className="mk-stack">
+              <div className="mk-stack mk-stack--tight">
+                <span className="mk-row" style={{ gap: "var(--mk-sp-2)" }}>
+                  <span className="mk-label">Re-drill · same session</span>
+                  <HelpPopover
+                    label="Help: re-drill page"
+                    title="Re-drill — close the loop"
+                    body="The interviewer re-asks only the weakest question. Same WebSocket, no second mic prompt. Before/After shows whether the targeted axis improved."
+                  />
+                </span>
+                <div className="mk-row" style={{ gap: "var(--mk-sp-2)" }}>
+                  <h1>Re-drill</h1>
+                  <HelpPopover
+                    label="Help: re-drill question"
+                    title="This re-drill question"
+                    body="Pulled from the same bank with a coaching target like Focus on structure. Answer again out loud — the new transcript and re-score appear on the right."
+                  />
+                </div>
+                <p className="mk-prose">{drillContext.question.text}</p>
+              </div>
               <Drill
                 question={drillContext.question}
                 originalQuote={drillContext.quote}
@@ -302,25 +432,59 @@ export default function App() {
                 before={drillContext.before}
                 after={after}
               />
-              <button onClick={() => setScreen("scorecard")}>Back to Scorecard</button>
+              <div className="mk-btn-row">
+                <button className="mk-btn mk-btn--ghost" onClick={() => setScreen("scorecard")}>
+                  <ArrowLeft size={15} aria-hidden="true" />
+                  Back to Scorecard
+                </button>
+              </div>
             </div>
           );
         })()}
 
       {screen === "drill" && !drillContext && (
-        <div data-testid="screen-drill-empty">
-          <p>No drill context</p>
-          <button onClick={() => setScreen("scorecard")}>Back to Scorecard</button>
+        <div data-testid="screen-drill-empty" className="mk-stack">
+          <div className="mk-empty">
+            <p>No drill context</p>
+          </div>
+          <div className="mk-btn-row">
+            <button className="mk-btn mk-btn--ghost" onClick={() => setScreen("scorecard")}>
+              <ArrowLeft size={15} aria-hidden="true" />
+              Back to Scorecard
+            </button>
+          </div>
         </div>
       )}
 
       {screen === "history" && (
-        <div data-testid="screen-history">
-          <h1>History</h1>
+        <div data-testid="screen-history" className="mk-stack">
+          <div className="mk-stack mk-stack--tight">
+            <span className="mk-row" style={{ gap: "var(--mk-sp-2)" }}>
+              <span className="mk-label">This browser session</span>
+              <HelpPopover
+                label="Help: history page"
+                title="History — the browser log"
+                body="Lists every scorecard produced this session — id, overall, duration and count. Click a row's text is mono so it lines up like a log."
+              />
+            </span>
+            <div className="mk-row" style={{ gap: "var(--mk-sp-2)" }}>
+              <h1>History</h1>
+              <HelpPopover
+                label="Help: history list"
+                title="Session rows"
+                body="Each row is sess-… — Overall N — mm:ss — N questions. Data is in-memory only; reload clears it. Nothing is persisted server-side."
+              />
+            </div>
+          </div>
           <History sessions={sessions} />
-          <button onClick={() => setScreen("setup")}>Back to Setup</button>
+          <div className="mk-btn-row">
+            <button className="mk-btn mk-btn--ghost" onClick={() => setScreen("setup")}>
+              <ArrowLeft size={15} aria-hidden="true" />
+              Back to Setup
+            </button>
+          </div>
         </div>
       )}
-    </div>
+    </AppShell>
   );
 }

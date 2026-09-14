@@ -108,3 +108,6 @@ status_report.md
 RUN-REPORT.md
 FINDINGS.md
 AGENTS.md
+
+.vercel
+.env*

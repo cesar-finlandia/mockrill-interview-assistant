@@ -63,7 +63,7 @@ test.describe("Degraded demo (ladder rung 2)", () => {
     await page.goto("/");
     await waitForApp(page);
     await page.selectOption("#role-select", "junior-frontend");
-    await page.getByRole("button", { name: "Start screening call" }).click();
+    await page.getByRole("button", { name: "Start screening call", exact: true }).click();
 
     // The badge is visible and explains itself as designed behaviour.
     const banner = page.getByRole("alert").first();
@@ -86,7 +86,7 @@ test.describe("Degraded demo (ladder rung 2)", () => {
     await page.goto("/?sim=1");
     await waitForApp(page);
     await page.selectOption("#role-select", "junior-frontend");
-    await page.getByRole("button", { name: "Start screening call" }).click();
+    await page.getByRole("button", { name: "Start screening call", exact: true }).click();
     await expect(page.getByTestId("screen-scorecard")).toBeVisible({ timeout: 60_000 });
 
     expect(failures).toEqual([]);

@@ -1,0 +1,159 @@
+/*
+  Mockrill base layer — reset, typography, canvas textures, focus, reduced motion.
+  See design_documents/visual_identity_plan.md §5, §6, §7.9, §10.
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--mk-bg);
+  color: var(--mk-text);
+  font-family: var(--mk-font-ui);
+  font-size: var(--mk-fs-body);
+  line-height: var(--mk-lh-body);
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color var(--mk-dur-3) var(--mk-ease-out),
+    color var(--mk-dur-3) var(--mk-ease-out);
+}
+
+/* ---- Canvas: drifting aurora bloom + fractal grain (§7.9) ---- */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  background:
+    radial-gradient(900px 620px at 8% -6%, var(--mk-aurora-1), transparent 62%),
+    radial-gradient(820px 560px at 104% 108%, var(--mk-aurora-2), transparent 60%);
+  animation: mk-aurora-drift 24s var(--mk-ease-in-out) infinite;
+}
+
+body::after {
+  opacity: var(--mk-grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--mk-font-display);
+  font-weight: 600;
+  margin: 0;
+  color: var(--mk-text);
+}
+
+h1 {
+  font-size: var(--mk-fs-h1);
+  line-height: var(--mk-lh-tight);
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: var(--mk-fs-h2);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+
+h3 {
+  font-size: var(--mk-fs-h3);
+  line-height: var(--mk-lh-snug);
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0;
+}
+
+small {
+  font-size: var(--mk-fs-xs);
+  color: var(--mk-text-muted);
+}
+
+a {
+  color: var(--mk-primary);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* Anything numeric that ticks in place must not jitter (§5.2). */
+.mk-num,
+.mk-mono,
+progress,
+time {
+  font-family: var(--mk-font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* ---- Focus (§10) ---- */
+:where(a, button, select, input, [tabindex]):focus-visible {
+  outline: 2px solid var(--mk-primary);
+  outline-offset: 2px;
+  border-radius: var(--mk-radius-xs);
+}
+
+::selection {
+  background: var(--mk-primary-soft);
+  color: var(--mk-text);
+}
+
+/* ---- Scrollbars, quietly on-brand ---- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--mk-border-strong) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--mk-border-strong);
+  border-radius: var(--mk-radius-full);
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+/* ---- Reduced motion (§6.4): freeze loops, keep every state legible ---- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 80ms !important;
+    scroll-behavior: auto !important;
+  }
+}

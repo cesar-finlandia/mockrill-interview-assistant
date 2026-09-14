@@ -62,13 +62,13 @@ test.describe("Scorecard", () => {
       (a, b) => a.overall - b.overall || a.turn_order - b.turn_order,
     )[0]!;
     expect(sc.weakest_question_id).toBe(lowest.question_id);
-    await expect(page.getByRole("button", { name: "Re-drill this answer" })).toHaveCount(1);
+    await expect(page.getByRole("button", { name: "Re-drill this answer", exact: true })).toHaveCount(1);
   });
 
   test("the session is kept in history", async ({ page }) => {
     await runInterviewToScorecard(page);
     const sc = (await probe(page)).scorecard!;
-    await page.getByRole("button", { name: "History" }).click();
+    await page.getByRole("button", { name: "History", exact: true }).click();
     await expect(page.getByTestId("screen-history")).toBeVisible();
     await expect(page.getByTestId("screen-history")).toContainText(sc.session_id);
     await expect(page.getByTestId("screen-history")).toContainText(String(sc.overall));

@@ -20,7 +20,7 @@ test.describe("Setup screen", () => {
     expect(values.length).toBeGreaterThan(0);
     if (bankRoles) expect(values.sort()).toEqual(bankRoles.sort());
 
-    const start = page.getByRole("button", { name: "Start screening call" });
+    const start = page.getByRole("button", { name: "Start screening call", exact: true });
     await expect(start).toBeDisabled();
     await page.selectOption("#role-select", values[0]!);
     await expect(start).toBeEnabled();
@@ -29,7 +29,7 @@ test.describe("Setup screen", () => {
   test("the microphone check reports a usable device", async ({ page }) => {
     await page.goto("/?sim=1");
     await waitForApp(page);
-    await page.getByRole("button", { name: "Test microphone" }).click();
+    await page.getByRole("button", { name: "Test microphone", exact: true }).click();
     // Chromium runs with a fake capture device, so the grant branch must report ready.
     await expect(page.getByText("Microphone ready")).toBeVisible();
   });
